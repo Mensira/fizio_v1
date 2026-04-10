@@ -378,7 +378,6 @@ export const translations = {
   'common.star': { tr: 'Yıldızla', en: 'Star' },
   'common.normal': { tr: 'Normal', en: 'Normal' },
   'common.confirm': { tr: 'Onayla', en: 'Confirm' },
-  'common.back': { tr: 'Geri', en: 'Back' },
   'common.continue': { tr: 'Devam Et', en: 'Continue' },
   'common.approve': { tr: 'Onayla', en: 'Approve' },
   'common.reject': { tr: 'Reddet', en: 'Reject' },
