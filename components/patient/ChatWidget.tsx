@@ -220,8 +220,8 @@ export default function ChatWidget() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-            className="fixed bottom-24 right-6 z-50 rounded-2xl bg-[var(--color-card)] border border-[var(--color-border)] shadow-2xl overflow-hidden flex"
-            style={{ width: showInfoPanel && showChatView ? '620px' : '420px', height: '600px' }}
+            className="fixed bottom-4 right-0 left-0 mx-4 sm:left-auto sm:mx-0 sm:right-6 sm:bottom-24 z-50 rounded-2xl bg-[var(--color-card)] border border-[var(--color-border)] shadow-2xl overflow-hidden flex"
+            style={{ width: typeof window !== 'undefined' && window.innerWidth < 640 ? 'auto' : (showInfoPanel && showChatView ? '620px' : '420px'), height: '600px', maxHeight: 'calc(100vh - 6rem)' }}
           >
             {/* Doctor: Patient List View */}
             {!isPatient && doctorView === 'list' && (

@@ -148,15 +148,15 @@ export default function HastalarPage() {
       {/* Add Patient Modal */}
       <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)} title={t('patients.addModal', language)} size="lg">
         <form onSubmit={handleAddPatient} className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Input label={t('patients.firstName', language)} value={form.firstName} onChange={(e) => setForm({ ...form, firstName: e.target.value })} required />
             <Input label={t('patients.lastName', language)} value={form.lastName} onChange={(e) => setForm({ ...form, lastName: e.target.value })} required />
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Input label={t('patients.phone', language)} value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} required />
             <Input label={t('patients.email', language)} type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Input label={t('patients.birthDate', language)} type="date" value={form.birthDate} onChange={(e) => setForm({ ...form, birthDate: e.target.value })} />
             <Select
               label={t('patients.gender', language)}

@@ -168,7 +168,7 @@ export default function DoctorPaymentView() {
           </div>
           <div className="divide-y divide-border/30">
             {payments.filter((p) => p.status === 'NakitOnayBekliyor').map((payment) => (
-              <div key={payment.id} className="flex items-center gap-4 px-5 py-4">
+              <div key={payment.id} className="flex flex-wrap items-center gap-3 px-4 sm:px-5 py-4">
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-warning/10 shrink-0">
                   <Banknote className="h-5 w-5 text-warning" />
                 </div>
@@ -177,7 +177,7 @@ export default function DoctorPaymentView() {
                   <p className="text-xs text-text-secondary mt-0.5">{payment.description} · {formatDate(payment.date)}</p>
                 </div>
                 <p className="text-lg font-bold text-warning shrink-0">{formatCurrency(payment.amount)}</p>
-                <div className="flex gap-2 shrink-0">
+                <div className="flex gap-2 shrink-0 w-full sm:w-auto justify-end">
                   <Button
                     size="sm"
                     onClick={() => {

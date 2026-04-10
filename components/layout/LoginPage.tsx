@@ -118,7 +118,7 @@ export default function LoginPage() {
           ))}
         </motion.div>
 
-        <motion.div className="w-full max-w-[400px] space-y-6"
+        <motion.div className="w-full max-w-[400px] space-y-5 sm:space-y-6"
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }}>
 
           {/* Mobile logo */}
@@ -160,7 +160,7 @@ export default function LoginPage() {
           <AnimatePresence mode="wait">
             <motion.div
               key={loginMode}
-              className="rounded-2xl bg-white border border-border p-7 shadow-lg shadow-black/[0.03] space-y-5"
+              className="rounded-2xl bg-white border border-border p-5 sm:p-7 shadow-lg shadow-black/[0.03] space-y-5"
               initial={{ opacity: 0, x: loginMode === 'doctor' ? -20 : 20 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: loginMode === 'doctor' ? 20 : -20 }}
@@ -253,7 +253,7 @@ export default function LoginPage() {
           </AnimatePresence>
 
           {/* Feature pills */}
-          <div className="flex justify-center gap-2.5">
+          <div className="flex justify-center gap-2 flex-wrap">
             {[
               { icon: CalendarCheck, label: tr ? 'Randevu' : 'Appointments' },
               { icon: TrendingUp, label: tr ? 'İlerleme' : 'Progress' },

@@ -39,7 +39,7 @@ export default function Modal({ isOpen, onClose, title, children, size = 'md' }:
     >
       <div className={`w-full ${sizeClasses[size]} rounded-2xl bg-card shadow-xl animate-in fade-in zoom-in-95 duration-200`}>
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-border px-6 py-4">
+        <div className="flex items-center justify-between border-b border-border px-4 sm:px-6 py-4">
           <h2 className="text-lg font-semibold text-text-main">{title}</h2>
           <button
             onClick={onClose}
@@ -49,7 +49,7 @@ export default function Modal({ isOpen, onClose, title, children, size = 'md' }:
           </button>
         </div>
         {/* Body */}
-        <div className="px-6 py-4">{children}</div>
+        <div className="px-4 sm:px-6 py-4 overflow-y-auto max-h-[calc(100vh-10rem)]">{children}</div>
       </div>
     </div>
   );

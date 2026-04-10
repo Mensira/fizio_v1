@@ -73,10 +73,10 @@ export default function Header() {
         >
           <Menu className="h-5 w-5" />
         </button>
-        <h1 className="text-xl font-semibold text-text-main">{title}</h1>
+        <h1 className="text-base sm:text-xl font-semibold text-text-main truncate max-w-[140px] sm:max-w-none">{title}</h1>
       </div>
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2 sm:gap-3">
         {/* Search - doctor only */}
         {!isPatient && <div className="relative hidden md:block">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-text-secondary" />
@@ -111,7 +111,7 @@ export default function Header() {
         </div>}
 
         {/* Language toggle */}
-        <div className="flex items-center gap-1 rounded-lg border border-border p-0.5">
+        <div className="hidden sm:flex items-center gap-1 rounded-lg border border-border p-0.5">
           <button
             onClick={() => setLanguage('tr')}
             className={`px-2 py-1 rounded-md text-xs font-medium transition-colors ${language === 'tr' ? 'bg-primary text-white' : 'text-text-secondary hover:text-text-main'}`}
@@ -158,7 +158,7 @@ export default function Header() {
           </button>
 
           {showUserMenu && (
-            <div className="absolute right-0 top-full mt-2 w-56 rounded-xl bg-card border border-border shadow-xl z-50 overflow-hidden">
+            <div className="absolute right-0 top-full mt-2 w-56 max-w-[calc(100vw-2rem)] rounded-xl bg-card border border-border shadow-xl z-50 overflow-hidden">
               <div className="px-4 py-3 border-b border-border bg-background/50">
                 <p className="text-sm font-medium text-text-main">
                   {isPatient && loggedInPatient

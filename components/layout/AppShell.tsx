@@ -75,7 +75,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         )}
         <div className="flex flex-1 flex-col pl-0 lg:pl-64">
           <Header />
-          <main className="flex-1 overflow-y-auto bg-background p-6">
+          <main className="flex-1 overflow-y-auto bg-background p-4 lg:p-6">
             {isRestrictedPath ? null : children}
           </main>
         </div>

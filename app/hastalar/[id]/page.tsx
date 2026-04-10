@@ -122,9 +122,9 @@ export default function PatientDetailPage() {
           {/* Tabs */}
           <Card padding={false}>
             <Tabs tabs={TABS} activeTab={activeTab} onChange={setActiveTab} />
-            <div className="p-6">
+            <div className="p-4 sm:p-6">
               {activeTab === 'genel' && (
-                <div className="grid grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                   <div className="space-y-4">
                     <div><p className="text-xs text-text-secondary">{t('patients.fullName', language)}</p><p className="text-sm font-medium text-text-main">{patient.firstName} {patient.lastName}</p></div>
                     <div><p className="text-xs text-text-secondary">{t('patients.phone', language)}</p><p className="text-sm font-medium text-text-main">{patient.phone}</p></div>

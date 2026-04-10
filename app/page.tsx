@@ -69,10 +69,10 @@ export default function DashboardPage() {
     .replace('{plans}', String(activePlans.length));
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 lg:space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-text-main">
+          <h2 className="text-xl sm:text-2xl font-bold text-text-main">
             {greeting}, {profile.fullName.split(' ')[0]}
           </h2>
           <p className="text-sm text-text-secondary mt-1">{summaryText}</p>
@@ -85,7 +85,7 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard
           title={t('dashboard.todayAppointments', language)}
           value={todayAppointments.length}
@@ -114,7 +114,7 @@ export default function DashboardPage() {
         />
       </div>
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-6">
         <div className="lg:col-span-2 space-y-6">
           <AppointmentListWidget />
 
