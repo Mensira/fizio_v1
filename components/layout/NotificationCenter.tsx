@@ -95,33 +95,56 @@ export default function NotificationCenter() {
         )}
       </button>
 
-      {/* Dropdown */}
+      {/* Mobile backdrop */}
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={{ opacity: 0, y: -8, scale: 0.96 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -8, scale: 0.96 }}
-            transition={{ duration: 0.15 }}
-            className="absolute right-0 top-full mt-2 w-[calc(100vw-2rem)] max-w-[380px] bg-[var(--color-card)] border border-[var(--color-border)] rounded-xl shadow-xl z-50 overflow-hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/40 z-40 lg:hidden"
+            onClick={() => setOpen(false)}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Dropdown — mobile: fixed bottom sheet, desktop: absolute dropdown */}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-x-0 bottom-0 z-50 lg:absolute lg:inset-auto lg:right-0 lg:top-full lg:mt-2 lg:w-[380px] bg-[var(--color-card)] border-t lg:border border-[var(--color-border)] rounded-t-2xl lg:rounded-xl shadow-xl overflow-hidden"
           >
+            {/* Handle bar — mobile only */}
+            <div className="flex justify-center pt-2 pb-1 lg:hidden">
+              <div className="h-1 w-10 rounded-full bg-[var(--color-border)]" />
+            </div>
+
             {/* Header */}
             <div className="flex items-center justify-between px-4 py-3 border-b border-[var(--color-border)]">
               <h3 className="text-sm font-semibold text-[var(--color-text-main)]">
                 {tr ? 'Bildirimler' : 'Notifications'}
               </h3>
-              {unreadCount > 0 && (
-                <button
-                  onClick={() => markAllNotificationsRead()}
-                  className="text-xs text-[var(--color-primary)] hover:underline font-medium"
-                >
-                  {tr ? 'Tümünü Okundu İşaretle' : 'Mark All Read'}
+              <div className="flex items-center gap-3">
+                {unreadCount > 0 && (
+                  <button
+                    onClick={() => markAllNotificationsRead()}
+                    className="text-xs text-[var(--color-primary)] hover:underline font-medium"
+                  >
+                    {tr ? 'Tümünü Okundu İşaretle' : 'Mark All Read'}
+                  </button>
+                )}
+                <button onClick={() => setOpen(false)} className="lg:hidden text-[var(--color-text-secondary)] hover:text-[var(--color-text-main)]">
+                  <span className="text-lg leading-none">&times;</span>
                 </button>
-              )}
+              </div>
             </div>
 
             {/* Notification List */}
-            <div className="max-h-[360px] overflow-y-auto">
+            <div className="max-h-[60vh] lg:max-h-[360px] overflow-y-auto">
               {notifications.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-10 text-[var(--color-text-secondary)]">
                   <BellOff className="w-10 h-10 mb-2 opacity-40" />
@@ -138,12 +161,9 @@ export default function NotificationCenter() {
                       !n.read ? 'bg-[var(--color-primary)]/5' : ''
                     }`}
                   >
-                    {/* Icon */}
                     <div className="flex-shrink-0 mt-0.5 w-8 h-8 rounded-full bg-[var(--color-background)] flex items-center justify-center">
                       {typeIcons[n.type]}
                     </div>
-
-                    {/* Content */}
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium text-[var(--color-text-main)] truncate">
                         {n.title}
@@ -155,8 +175,6 @@ export default function NotificationCenter() {
                         {timeAgo(n.date, tr)}
                       </p>
                     </div>
-
-                    {/* Unread Dot */}
                     {!n.read && (
                       <span className="flex-shrink-0 mt-2 w-2 h-2 rounded-full bg-[var(--color-primary)]" />
                     )}
@@ -164,6 +182,9 @@ export default function NotificationCenter() {
                 ))
               )}
             </div>
+
+            {/* Bottom safe area — mobile only */}
+            <div className="h-[env(safe-area-inset-bottom,0px)] lg:hidden" />
           </motion.div>
         )}
       </AnimatePresence>
