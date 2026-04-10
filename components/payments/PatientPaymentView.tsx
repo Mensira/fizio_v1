@@ -167,21 +167,25 @@ export default function PatientPaymentView() {
           </div>
           <div className="divide-y divide-border/30">
             {cashAwaitingPayments.map((payment) => (
-              <div key={payment.id} className="flex items-center gap-2 lg:gap-4 px-3 lg:px-5 py-3 lg:py-4">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 shrink-0">
-                  <Banknote className="h-5 w-5 text-primary" />
+              <div key={payment.id} className="px-3 lg:px-5 py-3 lg:py-4">
+                <div className="flex items-center gap-2 lg:gap-4">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 shrink-0">
+                    <Banknote className="h-5 w-5 text-primary" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-text-main">{payment.description}</p>
+                    <p className="text-xs text-text-secondary mt-0.5">{formatDate(payment.date)}</p>
+                  </div>
                 </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-text-main">{payment.description}</p>
-                  <p className="text-xs text-text-secondary mt-0.5">{formatDate(payment.date)}</p>
+                <div className="flex items-center justify-between mt-2 pl-12 lg:pl-14">
+                  <p className="text-sm lg:text-lg font-bold text-primary">{formatCurrency(payment.amount)}</p>
+                  <Badge variant="default">
+                    <span className="flex items-center gap-1">
+                      <Clock className="h-3 w-3" />
+                      {tr ? 'Onay Bekliyor' : 'Pending'}
+                    </span>
+                  </Badge>
                 </div>
-                <p className="text-base lg:text-lg font-bold text-primary shrink-0">{formatCurrency(payment.amount)}</p>
-                <Badge variant="default">
-                  <span className="flex items-center gap-1">
-                    <Clock className="h-3 w-3" />
-                    {tr ? 'Onay Bekliyor' : 'Pending'}
-                  </span>
-                </Badge>
               </div>
             ))}
           </div>
@@ -200,18 +204,22 @@ export default function PatientPaymentView() {
           </div>
           <div className="divide-y divide-border/30">
             {pendingPayments.map((payment) => (
-              <div key={payment.id} className="flex items-center gap-2 lg:gap-4 px-3 lg:px-5 py-3 lg:py-4">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-warning/10 shrink-0">
-                  <Clock className="h-5 w-5 text-warning" />
+              <div key={payment.id} className="px-3 lg:px-5 py-3 lg:py-4">
+                <div className="flex items-center gap-2 lg:gap-4">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-warning/10 shrink-0">
+                    <Clock className="h-5 w-5 text-warning" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-text-main truncate">{payment.description}</p>
+                    <p className="text-xs text-text-secondary mt-0.5">{formatDate(payment.date)}</p>
+                  </div>
                 </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-text-main truncate">{payment.description}</p>
-                  <p className="text-xs text-text-secondary mt-0.5">{formatDate(payment.date)}</p>
+                <div className="flex items-center justify-between mt-2 pl-12 lg:pl-14">
+                  <p className="text-sm lg:text-lg font-bold text-warning">{formatCurrency(payment.amount)}</p>
+                  <Button size="sm" onClick={() => openPayModal(payment.id)}>
+                    {tr ? 'Öde' : 'Pay'}
+                  </Button>
                 </div>
-                <p className="text-sm lg:text-lg font-bold text-warning shrink-0">{formatCurrency(payment.amount)}</p>
-                <Button size="sm" onClick={() => openPayModal(payment.id)}>
-                  {tr ? 'Öde' : 'Pay'}
-                </Button>
               </div>
             ))}
           </div>
@@ -232,13 +240,18 @@ export default function PatientPaymentView() {
             {myPayments.map((payment) => {
               const statusCfg = STATUS_CONFIG[payment.status];
               return (
-                <div key={payment.id} className="flex items-center gap-2 lg:gap-4 px-3 lg:px-5 py-2.5 lg:py-3 hover:bg-background/50 transition-colors">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-background shrink-0">
-                    {METHOD_ICONS[payment.method]}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
+                <div key={payment.id} className="px-3 lg:px-5 py-2.5 lg:py-3 hover:bg-background/50 transition-colors">
+                  <div className="flex items-center gap-2 lg:gap-4">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-background shrink-0">
+                      {METHOD_ICONS[payment.method]}
+                    </div>
+                    <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium text-text-main truncate">{payment.description}</p>
+                      <p className="text-xs text-text-secondary mt-0.5">{formatDate(payment.date)}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between mt-1.5 pl-11 lg:pl-13">
+                    <div className="flex items-center gap-2">
                       <Badge variant={statusCfg.variant}>
                         <span className="flex items-center gap-1">
                           {statusCfg.icon}
@@ -246,24 +259,17 @@ export default function PatientPaymentView() {
                         </span>
                       </Badge>
                     </div>
-                    <div className="flex items-center gap-2 mt-0.5 text-xs text-text-secondary">
-                      <span>{formatDate(payment.date)}</span>
-                      <span className="text-border">·</span>
-                      <span>
-                        {payment.method === 'Kredi Karti' ? (tr ? 'Kredi Kartı' : 'Credit Card') : payment.method === 'Havale' ? (tr ? 'Havale/EFT' : 'Transfer') : (tr ? 'Nakit' : 'Cash')}
-                      </span>
+                    <div className="flex items-center gap-2">
+                      <p className={`text-sm font-bold ${payment.status === 'Odendi' ? 'text-health-green' : payment.status === 'Bekliyor' ? 'text-warning' : payment.status === 'NakitOnayBekliyor' ? 'text-primary' : 'text-text-secondary line-through'}`}>
+                        {formatCurrency(payment.amount)}
+                      </p>
+                      {payment.status === 'Bekliyor' && (
+                        <Button size="sm" onClick={() => openPayModal(payment.id)}>
+                          {tr ? 'Öde' : 'Pay'}
+                        </Button>
+                      )}
                     </div>
                   </div>
-                  <div className="shrink-0 text-right">
-                    <p className={`text-sm font-bold ${payment.status === 'Odendi' ? 'text-health-green' : payment.status === 'Bekliyor' ? 'text-warning' : payment.status === 'NakitOnayBekliyor' ? 'text-primary' : 'text-text-secondary line-through'}`}>
-                      {formatCurrency(payment.amount)}
-                    </p>
-                  </div>
-                  {payment.status === 'Bekliyor' && (
-                    <Button size="sm" onClick={() => openPayModal(payment.id)}>
-                      {tr ? 'Öde' : 'Pay'}
-                    </Button>
-                  )}
                 </div>
               );
             })}
