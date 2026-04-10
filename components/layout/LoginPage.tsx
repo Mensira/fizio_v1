@@ -191,8 +191,7 @@ export default function LoginPage() {
               <div className="space-y-1.5">
                 <label className="block text-sm font-medium text-text-main">{t('login.email', language)}</label>
                 <input type="email"
-                  defaultValue={loginMode === 'doctor' ? 'ceydanur@fizyopanel.com' : ''}
-                  placeholder={loginMode === 'patient' ? (tr ? 'E-posta adresiniz' : 'Your email address') : ''}
+                  placeholder={tr ? 'E-posta adresiniz' : 'Your email address'}
                   className="h-12 w-full rounded-xl border border-border bg-background/60 px-4 text-sm transition-all duration-200 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/15 focus:bg-white" />
               </div>
 
@@ -201,8 +200,7 @@ export default function LoginPage() {
                 <label className="block text-sm font-medium text-text-main">{t('login.password', language)}</label>
                 <div className="relative">
                   <input type={showPassword ? 'text' : 'password'}
-                    defaultValue={loginMode === 'doctor' ? 'demo1234' : ''}
-                    placeholder={loginMode === 'patient' ? (tr ? 'Şifreniz' : 'Your password') : ''}
+                    placeholder={tr ? 'Şifreniz' : 'Your password'}
                     className="h-12 w-full rounded-xl border border-border bg-background/60 px-4 pr-11 text-sm transition-all duration-200 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/15 focus:bg-white" />
                   <button type="button" onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-text-secondary hover:text-text-main transition-colors">

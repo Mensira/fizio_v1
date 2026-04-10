@@ -366,7 +366,7 @@ export const useStore = create<AppStore>((set) => ({
   setTheme: (theme) => set({ theme }),
   fontSize: 'normal',
   setFontSize: (size) => set({ fontSize: size }),
-  isLoggedIn: true,
+  isLoggedIn: false,
   userRole: 'doctor',
   loggedInPatientId: null,
   logout: () => set({ isLoggedIn: false, userRole: 'doctor', loggedInPatientId: null }),
