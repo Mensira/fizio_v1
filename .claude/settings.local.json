@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(npm run:*)",
+      "Bash(npx tsc:*)",
+      "Bash(sed:*)",
+      "Bash(npx next:*)",
+      "Bash(grep:*)",
+      "Bash(rm:*)",
+      "Bash(npx eslint:*)",
+      "Bash(node --max-old-space-size=512 ./node_modules/.bin/eslint app/ilerleme/page.tsx app/odemeler/page.tsx)",
+      "Bash(node --max-old-space-size=512 node_modules/eslint/bin/eslint.js app/ilerleme/page.tsx app/odemeler/page.tsx)",
+      "Bash(node --max-old-space-size=512 node_modules/eslint/bin/eslint.js app/ilerleme/page.tsx app/odemeler/page.tsx --format=compact)",
+      "Bash(node --max-old-space-size=512 node_modules/eslint/bin/eslint.js app/ilerleme/page.tsx app/odemeler/page.tsx --max-warnings=9999)",
+      "Bash(echo \"EXIT:$?\")",
+      "Bash(node --max-old-space-size=512 node_modules/eslint/bin/eslint.js app/ilerleme/page.tsx app/odemeler/page.tsx --rule '{\"react-hooks/exhaustive-deps\": \"warn\", \"react-hooks/rules-of-hooks\": \"error\", \"@typescript-eslint/no-unused-vars\": \"warn\"}')",
+      "Read(//d/nzl/**)",
+      "Bash(node_modules/.bin/eslint app/profilim/page.tsx)",
+      "Bash(wc -l D:/nzl/lib/store.ts D:/nzl/lib/i18n.ts D:/nzl/components/layout/LoginPage.tsx D:/nzl/app/randevular/page.tsx D:/nzl/app/hastalar/[id]/page.tsx)",
+      "Bash(git stash:*)",
+      "Bash(node:*)",
+      "Read(//d D:/**)",
+      "Bash(python -c ':*)",
+      "Bash(python \"D:/nzl/check.py\")",
+      "Bash(python3 -c ':*)"
+    ]
+  }
+}
