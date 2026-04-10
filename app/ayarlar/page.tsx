@@ -142,14 +142,14 @@ function PatientSettingsPage() {
                 </div>
               </div>
 
-              <div className="flex items-center gap-4 p-4 rounded-xl bg-background border border-border/50">
-                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-health-green to-health-green-light text-lg font-bold text-white">
+              <div className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 rounded-xl bg-background border border-border/50">
+                <div className="flex h-12 w-12 sm:h-16 sm:w-16 items-center justify-center rounded-full bg-gradient-to-br from-health-green to-health-green-light text-base sm:text-lg font-bold text-white shrink-0">
                   {patient.firstName[0]}{patient.lastName[0]}
                 </div>
-                <div>
-                  <p className="text-sm font-semibold text-text-main">{patient.firstName} {patient.lastName}</p>
-                  <p className="text-xs text-text-secondary">{patient.diagnosis}</p>
-                  <div className="flex items-center gap-2 mt-1">
+                <div className="min-w-0">
+                  <p className="text-sm font-semibold text-text-main truncate">{patient.firstName} {patient.lastName}</p>
+                  <p className="text-xs text-text-secondary truncate">{patient.diagnosis}</p>
+                  <div className="flex items-center gap-2 mt-1 flex-wrap">
                     <Badge variant="info">{patient.gender === 'Erkek' ? (tr ? 'Erkek' : 'Male') : (tr ? 'Kadın' : 'Female')}</Badge>
                     {patient.birthDate && <Badge variant="default">{patient.birthDate}</Badge>}
                   </div>
@@ -227,13 +227,13 @@ function PatientSettingsPage() {
                   <p className="text-xs font-semibold text-text-main mb-3 flex items-center gap-1.5">
                     <CalendarClock className="h-3.5 w-3.5 text-text-secondary" /> {tr ? 'Tercih Edilen Randevu Saatleri' : 'Preferred Appointment Times'}
                   </p>
-                  <div className="grid grid-cols-3 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     {[
                       { label: tr ? 'Sabah' : 'Morning', desc: '08:00 - 12:00', value: 'morning' },
                       { label: tr ? 'Öğlen' : 'Afternoon', desc: '12:00 - 16:00', value: 'afternoon' },
                       { label: tr ? 'Akşam' : 'Evening', desc: '16:00 - 20:00', value: 'evening' },
                     ].map((slot) => (
-                      <div key={slot.value} className="flex flex-col items-center gap-1 rounded-xl border-2 border-border/50 hover:border-primary/30 p-4 cursor-pointer transition-all">
+                      <div key={slot.value} className="flex sm:flex-col items-center gap-2 sm:gap-1 rounded-xl border-2 border-border/50 hover:border-primary/30 p-3 sm:p-4 cursor-pointer transition-all">
                         <Clock className="h-5 w-5 text-text-secondary" />
                         <span className="text-sm font-medium text-text-main">{slot.label}</span>
                         <span className="text-[10px] text-text-secondary">{slot.desc}</span>
@@ -252,12 +252,12 @@ function PatientSettingsPage() {
                       { label: tr ? 'Tedavi güncellemeleri' : 'Treatment updates', desc: tr ? 'Tedavi planı değişikliklerinde bilgilendirilme' : 'Get informed about treatment plan changes' },
                       { label: tr ? 'Egzersiz hatırlatmaları' : 'Exercise reminders', desc: tr ? 'Günlük egzersiz zamanı geldiğinde hatırlatma' : 'Reminder when daily exercise time comes' },
                     ].map((item) => (
-                      <div key={item.label} className="flex items-center justify-between rounded-lg border border-border/50 p-4">
-                        <div>
+                      <div key={item.label} className="flex items-center justify-between gap-3 rounded-lg border border-border/50 p-3 sm:p-4">
+                        <div className="min-w-0 flex-1">
                           <p className="text-sm font-medium text-text-main">{item.label}</p>
-                          <p className="text-xs text-text-secondary mt-0.5">{item.desc}</p>
+                          <p className="text-xs text-text-secondary mt-0.5 line-clamp-2">{item.desc}</p>
                         </div>
-                        <button type="button" className="relative inline-flex h-6 w-11 items-center rounded-full transition-colors bg-primary">
+                        <button type="button" className="relative inline-flex h-6 w-11 items-center rounded-full transition-colors bg-primary shrink-0">
                           <span className="inline-block h-4 w-4 rounded-full bg-white transition-transform shadow-sm translate-x-6" />
                         </button>
                       </div>
@@ -475,13 +475,13 @@ function DoctorSettingsPage() {
                 </div>
               </div>
 
-              <div className="flex items-center gap-4 p-4 rounded-xl bg-background border border-border/50">
-                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-primary to-primary-dark text-lg font-bold text-white">
+              <div className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 rounded-xl bg-background border border-border/50">
+                <div className="flex h-12 w-12 sm:h-16 sm:w-16 items-center justify-center rounded-full bg-gradient-to-br from-primary to-primary-dark text-base sm:text-lg font-bold text-white shrink-0">
                   {profile.fullName.split(' ').filter(w => w.length > 2).slice(0, 2).map(w => w[0]).join('').toUpperCase() || 'CC'}
                 </div>
-                <div>
-                  <p className="text-sm font-semibold text-text-main">{profile.fullName}</p>
-                  <p className="text-xs text-text-secondary">{profile.specialty}</p>
+                <div className="min-w-0">
+                  <p className="text-sm font-semibold text-text-main truncate">{profile.fullName}</p>
+                  <p className="text-xs text-text-secondary truncate">{profile.specialty}</p>
                   <Badge variant="info" className="mt-1">{profile.license}</Badge>
                 </div>
               </div>
@@ -530,8 +530,8 @@ function DoctorSettingsPage() {
                   const isClosed = !workHours[startKey] && !workHours[endKey];
 
                   return (
-                    <div key={day.key} className={`flex items-center gap-4 rounded-lg p-3 ${isClosed ? 'bg-background' : 'border border-border/50'}`}>
-                      <span className="w-24 text-sm font-medium text-text-main">{day.label}</span>
+                    <div key={day.key} className={`flex flex-wrap items-center gap-2 sm:gap-4 rounded-lg p-3 ${isClosed ? 'bg-background' : 'border border-border/50'}`}>
+                      <span className="w-20 sm:w-24 text-sm font-medium text-text-main">{day.label}</span>
                       <button
                         type="button"
                         onClick={() => toggleDayOpen(day.key)}
@@ -543,9 +543,9 @@ function DoctorSettingsPage() {
                         <Badge variant="default">{t('common.closed', language)}</Badge>
                       ) : (
                         <div className="flex items-center gap-2">
-                          <input type="time" value={workHours[startKey]} onChange={(e) => setWorkHours({ ...workHours, [startKey]: e.target.value })} className="h-9 rounded-lg border border-border px-3 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary/30" />
+                          <input type="time" value={workHours[startKey]} onChange={(e) => setWorkHours({ ...workHours, [startKey]: e.target.value })} className="h-9 w-[110px] rounded-lg border border-border px-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary/30" />
                           <span className="text-xs text-text-secondary">-</span>
-                          <input type="time" value={workHours[endKey]} onChange={(e) => setWorkHours({ ...workHours, [endKey]: e.target.value })} className="h-9 rounded-lg border border-border px-3 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary/30" />
+                          <input type="time" value={workHours[endKey]} onChange={(e) => setWorkHours({ ...workHours, [endKey]: e.target.value })} className="h-9 w-[110px] rounded-lg border border-border px-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary/30" />
                         </div>
                       )}
                     </div>

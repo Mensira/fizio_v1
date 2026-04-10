@@ -16,7 +16,7 @@ interface TabsProps {
 export default function Tabs({ tabs, activeTab, onChange }: TabsProps) {
   return (
     <div className="border-b border-border">
-      <div className="flex gap-0 overflow-x-auto">
+      <div className="flex gap-0 overflow-x-auto scrollbar-hide" style={{ WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none' }}>
         {tabs.map((tab) => (
           <button
             key={tab.id}
