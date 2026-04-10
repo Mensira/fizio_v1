@@ -192,6 +192,8 @@ export default function LoginPage() {
                 <label className="block text-sm font-medium text-text-main">{t('login.email', language)}</label>
                 <input type="email"
                   placeholder={tr ? 'E-posta adresiniz' : 'Your email address'}
+                  autoComplete="off"
+                  name="login-email-nofill"
                   className="h-12 w-full rounded-xl border border-border bg-background/60 px-4 text-sm transition-all duration-200 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/15 focus:bg-white" />
               </div>
 
@@ -201,6 +203,8 @@ export default function LoginPage() {
                 <div className="relative">
                   <input type={showPassword ? 'text' : 'password'}
                     placeholder={tr ? 'Şifreniz' : 'Your password'}
+                    autoComplete="new-password"
+                    name="login-pass-nofill"
                     className="h-12 w-full rounded-xl border border-border bg-background/60 px-4 pr-11 text-sm transition-all duration-200 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/15 focus:bg-white" />
                   <button type="button" onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-text-secondary hover:text-text-main transition-colors">
