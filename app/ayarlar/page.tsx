@@ -3,7 +3,7 @@
 import { useState, useMemo } from 'react';
 import {
   User, Building2, Clock, RotateCcw, Check, Heart, Phone, Mail,
-  AlertTriangle, Shield, Stethoscope, CalendarClock, MessageSquare,
+  AlertTriangle, Stethoscope, CalendarClock, MessageSquare,
 } from 'lucide-react';
 import Card from '@/components/ui/Card';
 import Input from '@/components/ui/Input';
@@ -90,39 +90,14 @@ function PatientSettingsPage() {
         <p className="text-sm text-text-secondary">{tr ? 'Profil, bildirim ve güvenlik ayarlarınızı yönetin' : 'Manage your profile, notification, and security settings'}</p>
       </div>
 
-      {/* Patient summary cards */}
-      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-        <div className="rounded-xl bg-card border border-border/50 p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <User className="h-4 w-4 text-health-green" />
-            <span className="text-[11px] text-text-secondary">{tr ? 'Hesap' : 'Account'}</span>
-          </div>
+      {/* Patient profile card */}
+      <div className="flex items-center gap-3 rounded-xl bg-card border border-border/50 p-4">
+        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-health-green to-health-green-light text-base font-bold text-white shrink-0">
+          {patient.firstName[0]}{patient.lastName[0]}
+        </div>
+        <div className="min-w-0">
           <p className="text-sm font-semibold text-text-main truncate">{patient.firstName} {patient.lastName}</p>
-          <p className="text-[11px] text-text-secondary">{patient.diagnosis}</p>
-        </div>
-        <div className="rounded-xl bg-card border border-border/50 p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <Stethoscope className="h-4 w-4 text-primary" />
-            <span className="text-[11px] text-text-secondary">{tr ? 'Tedavi' : 'Treatment'}</span>
-          </div>
-          <p className="text-sm font-semibold text-text-main">{activePlan ? (tr ? 'Aktif' : 'Active') : (tr ? 'Yok' : 'None')}</p>
-          <p className="text-[11px] text-text-secondary">{activePlan ? `${activePlan.completedSessions}/${activePlan.totalSessions} ${tr ? 'seans' : 'sessions'}` : '-'}</p>
-        </div>
-        <div className="rounded-xl bg-card border border-border/50 p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <Phone className="h-4 w-4 text-warning" />
-            <span className="text-[11px] text-text-secondary">{tr ? 'İletişim' : 'Contact'}</span>
-          </div>
-          <p className="text-sm font-semibold text-text-main truncate">{profile.phone || (tr ? 'Girilmedi' : 'Not set')}</p>
-          <p className="text-[11px] text-text-secondary truncate">{profile.email || '-'}</p>
-        </div>
-        <div className="rounded-xl bg-card border border-border/50 p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <Shield className="h-4 w-4 text-danger" />
-            <span className="text-[11px] text-text-secondary">{tr ? 'Güvenlik' : 'Security'}</span>
-          </div>
-          <p className="text-sm font-semibold text-health-green">{tr ? 'Güvenli' : 'Secure'}</p>
-          <p className="text-[11px] text-text-secondary">{tr ? 'Şifre aktif' : 'Password active'}</p>
+          <p className="text-xs text-text-secondary truncate">{patient.diagnosis}</p>
         </div>
       </div>
 
@@ -379,15 +354,6 @@ function DoctorSettingsPage() {
     { key: 'sunday', label: t('days.sunday', language) },
   ];
 
-  // Quick info for summary cards
-  const storePatients = useStore((s) => s.patients);
-
-
-  const openDays = days.filter((d) => {
-    const startKey = `${d.key}Start`;
-    return !!storeWorkHours[startKey];
-  }).length;
-
   return (
     <div className="space-y-6 max-w-3xl">
       <div>
@@ -395,39 +361,14 @@ function DoctorSettingsPage() {
         <p className="text-sm text-text-secondary">{t('settings.subtitle', language)}</p>
       </div>
 
-      {/* Doctor summary cards */}
-      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-        <div className="rounded-xl bg-card border border-border/50 p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <Building2 className="h-4 w-4 text-primary" />
-            <span className="text-[11px] text-text-secondary">{tr ? 'Klinik' : 'Clinic'}</span>
-          </div>
-          <p className="text-sm font-semibold text-text-main truncate">{storeClinic.name}</p>
-          <p className="text-[11px] text-text-secondary">{storeClinic.city}, {storeClinic.district}</p>
+      {/* Doctor profile card */}
+      <div className="flex items-center gap-3 rounded-xl bg-card border border-border/50 p-4">
+        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-primary to-primary-dark text-base font-bold text-white shrink-0">
+          {storeProfile.fullName.split(' ').filter(w => w.length > 2).slice(0, 2).map(w => w[0]).join('').toUpperCase() || 'DR'}
         </div>
-        <div className="rounded-xl bg-card border border-border/50 p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <User className="h-4 w-4 text-health-green" />
-            <span className="text-[11px] text-text-secondary">{tr ? 'Profil' : 'Profile'}</span>
-          </div>
+        <div className="min-w-0">
           <p className="text-sm font-semibold text-text-main truncate">{storeProfile.fullName}</p>
-          <p className="text-[11px] text-text-secondary">{storeProfile.specialty}</p>
-        </div>
-        <div className="rounded-xl bg-card border border-border/50 p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <Clock className="h-4 w-4 text-warning" />
-            <span className="text-[11px] text-text-secondary">{tr ? 'Çalışma' : 'Schedule'}</span>
-          </div>
-          <p className="text-sm font-semibold text-text-main">{openDays} {tr ? 'gün/hafta' : 'days/week'}</p>
-          <p className="text-[11px] text-text-secondary">{storeWorkHours.sessionDuration} {tr ? 'dk seans' : 'min session'}</p>
-        </div>
-        <div className="rounded-xl bg-card border border-border/50 p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <Shield className="h-4 w-4 text-danger" />
-            <span className="text-[11px] text-text-secondary">{tr ? 'Durum' : 'Status'}</span>
-          </div>
-          <p className="text-sm font-semibold text-health-green">{tr ? 'Aktif' : 'Active'}</p>
-          <p className="text-[11px] text-text-secondary">{storePatients.length} {tr ? 'hasta' : 'patients'}</p>
+          <p className="text-xs text-text-secondary truncate">{storeProfile.specialty}</p>
         </div>
       </div>
 
