@@ -47,6 +47,12 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const sidebarCollapsed = useStore((s) => s.sidebarCollapsed);
   const toggleSidebar = useStore((s) => s.toggleSidebar);
 
+  useEffect(() => {
+    if (!isLoggedIn && pathname !== '/') {
+      router.replace('/');
+    }
+  }, [isLoggedIn, pathname, router]);
+
   if (!isLoggedIn) {
     return (
       <>
