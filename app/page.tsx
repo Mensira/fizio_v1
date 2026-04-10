@@ -73,7 +73,7 @@ export default function DashboardPage() {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-lg sm:text-2xl font-bold text-text-main">
-            {greeting}, {profile.fullName.split(' ')[0]}
+            {greeting}, {profile.fullName.split(' ').find(w => !w.includes('.')) || profile.fullName}
           </h2>
           <p className="text-sm text-text-secondary mt-1">{summaryText}</p>
         </div>

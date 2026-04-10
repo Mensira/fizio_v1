@@ -44,7 +44,8 @@ export default function Header() {
   const isPatient = userRole === 'patient';
   const loggedInPatient = isPatient ? patients.find(p => p.id === loggedInPatientId) : null;
   const doctorName = profile.fullName || 'FizyoPanel Doktor';
-  const doctorInitials = doctorName.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
+  const nameWords = doctorName.split(' ').filter(w => !w.includes('.'));
+  const doctorInitials = nameWords.length >= 2 ? (nameWords[0][0] + nameWords[1][0]).toUpperCase() : nameWords[0]?.[0]?.toUpperCase() || 'DR';
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [showSearchResults, setShowSearchResults] = useState(false);
