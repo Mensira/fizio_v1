@@ -48,7 +48,7 @@ export default function IlerlemePage() {
     }));
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-3 lg:space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
           <h2 className="text-lg font-semibold text-text-main">
@@ -72,11 +72,11 @@ export default function IlerlemePage() {
         )}
       </div>
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-3 lg:grid-cols-2 lg:gap-6">
         <Card>
-          <h3 className="text-base font-semibold text-text-main mb-1">{t('progress.painLevel', language)}</h3>
-          <p className="text-xs text-text-secondary mb-4">{t('progress.painDesc', language)}</p>
-          <ResponsiveContainer width="100%" height={300}>
+          <h3 className="text-sm lg:text-base font-semibold text-text-main mb-1">{t('progress.painLevel', language)}</h3>
+          <p className="text-xs text-text-secondary mb-3 lg:mb-4">{t('progress.painDesc', language)}</p>
+          <ResponsiveContainer width="100%" height={220}>
             <LineChart data={data}>
               <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" />
               <XAxis dataKey="date" tick={{ fontSize: 12, fill: '#636E72' }} axisLine={false} tickLine={false} />
@@ -103,9 +103,9 @@ export default function IlerlemePage() {
         </Card>
 
         <Card>
-          <h3 className="text-base font-semibold text-text-main mb-1">{t('progress.rom', language)}</h3>
-          <p className="text-xs text-text-secondary mb-4">{t('progress.romDesc', language)}</p>
-          <ResponsiveContainer width="100%" height={300}>
+          <h3 className="text-sm lg:text-base font-semibold text-text-main mb-1">{t('progress.rom', language)}</h3>
+          <p className="text-xs text-text-secondary mb-3 lg:mb-4">{t('progress.romDesc', language)}</p>
+          <ResponsiveContainer width="100%" height={220}>
             <LineChart data={data}>
               <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" />
               <XAxis dataKey="date" tick={{ fontSize: 12, fill: '#636E72' }} axisLine={false} tickLine={false} />
@@ -134,7 +134,7 @@ export default function IlerlemePage() {
 
       {/* Pain Map + Notes */}
       {effectivePatient && (
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-3 lg:grid-cols-3 lg:gap-6">
           <PainMapWidget />
           <div className="lg:col-span-2 flex flex-col">
             <div className="flex items-center gap-2 mb-4">
@@ -238,7 +238,7 @@ export default function IlerlemePage() {
         const todayEntry = patientMoods.find((m) => new Date(m.date).toDateString() === todayStr);
 
         return (
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+          <div className="grid grid-cols-1 gap-3 lg:grid-cols-2 lg:gap-6">
             {/* Quick entry for patient / summary for doctor */}
             <Card>
               <h3 className="text-base font-semibold text-text-main mb-1">

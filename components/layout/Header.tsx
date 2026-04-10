@@ -63,7 +63,7 @@ export default function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-border bg-card px-4 lg:px-6">
+    <header className="sticky top-0 z-20 flex h-14 lg:h-16 items-center justify-between border-b border-border bg-card px-3 lg:px-6">
       <div className="flex items-center gap-3">
         {/* Hamburger — mobile only */}
         <button
@@ -73,7 +73,7 @@ export default function Header() {
         >
           <Menu className="h-5 w-5" />
         </button>
-        <h1 className="text-base sm:text-xl font-semibold text-text-main truncate max-w-[140px] sm:max-w-none">{title}</h1>
+        <h1 className="text-sm sm:text-base lg:text-xl font-semibold text-text-main truncate max-w-[120px] sm:max-w-none">{title}</h1>
       </div>
 
       <div className="flex items-center gap-2 sm:gap-3">
@@ -129,7 +129,7 @@ export default function Header() {
         {/* Notifications */}
         <NotificationCenter />
 
-        <div className="h-6 w-px bg-border" />
+        <div className="hidden lg:block h-6 w-px bg-border" />
 
         {/* User menu */}
         <div className="relative">
@@ -137,7 +137,7 @@ export default function Header() {
             onClick={() => { setShowUserMenu(!showUserMenu); }}
             className="flex items-center gap-2 rounded-lg p-1.5 transition-colors hover:bg-background"
           >
-            <div className={`flex h-9 w-9 items-center justify-center rounded-full text-sm font-medium text-white ${isPatient ? 'bg-gradient-to-br from-health-green to-health-green-light' : 'bg-gradient-to-br from-primary to-primary-dark'}`}>
+            <div className={`flex h-8 w-8 lg:h-9 lg:w-9 items-center justify-center rounded-full text-sm font-medium text-white ${isPatient ? 'bg-gradient-to-br from-health-green to-health-green-light' : 'bg-gradient-to-br from-primary to-primary-dark'}`}>
               {isPatient && loggedInPatient
                 ? `${loggedInPatient.firstName[0]}${loggedInPatient.lastName[0]}`
                 : doctorInitials}

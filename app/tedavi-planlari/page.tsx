@@ -100,7 +100,7 @@ export default function TedaviPlanlariPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-3 lg:space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -147,7 +147,7 @@ export default function TedaviPlanlariPage() {
             return (
               <motion.div key={plan.id} layout>
                 <Card className="transition-shadow hover:shadow-md">
-                  <div className="flex items-center justify-between gap-4">
+                  <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
                         <h3 className="text-sm font-semibold text-text-main">{plan.diagnosis}</h3>
@@ -177,7 +177,7 @@ export default function TedaviPlanlariPage() {
                     </div>
 
                     {/* Actions */}
-                    <div className="flex flex-col items-end gap-2 flex-shrink-0">
+                    <div className="flex flex-row flex-wrap items-center gap-2 sm:flex-col sm:items-end flex-shrink-0">
                       <button
                         onClick={() => handleExportPDF(plan)}
                         className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
@@ -230,13 +230,13 @@ export default function TedaviPlanlariPage() {
       <AnimatePresence>
         {showNewPlan && (
           <motion.div
-            className="fixed inset-0 z-50 flex items-center justify-center p-4"
+            className="fixed inset-0 z-50 flex items-end lg:items-center justify-center p-0 lg:p-4"
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             onClick={() => setShowNewPlan(false)}
           >
             <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
             <motion.div
-              className="relative w-full max-w-lg max-h-[85vh] overflow-y-auto rounded-2xl bg-card shadow-2xl"
+              className="relative w-full max-w-lg max-h-[90vh] lg:max-h-[85vh] overflow-y-auto rounded-t-2xl lg:rounded-2xl bg-card shadow-2xl"
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -260,7 +260,7 @@ export default function TedaviPlanlariPage() {
                 />
                 <Input label={t('treatmentPlans.diagnosis', language)} value={newPlan.diagnosis} onChange={(e) => setNewPlan({ ...newPlan, diagnosis: e.target.value })} />
                 <Input label={t('treatmentPlans.description', language)} value={newPlan.description} onChange={(e) => setNewPlan({ ...newPlan, description: e.target.value })} />
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <Input label={t('treatmentPlans.startDate', language)} type="date" value={newPlan.startDate} onChange={(e) => setNewPlan({ ...newPlan, startDate: e.target.value })} />
                   <Input label={t('treatmentPlans.endDate', language)} type="date" value={newPlan.endDate} onChange={(e) => setNewPlan({ ...newPlan, endDate: e.target.value })} />
                 </div>

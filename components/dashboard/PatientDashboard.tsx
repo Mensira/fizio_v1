@@ -101,11 +101,11 @@ export default function PatientDashboard() {
   const locale = language === 'tr' ? 'tr-TR' : 'en-US';
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-3 lg:space-y-6">
       {/* Greeting */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-text-main">
+          <h2 className="text-lg sm:text-2xl font-bold text-text-main">
             {greeting}, {patient.firstName}
           </h2>
           <p className="text-sm text-text-secondary mt-1">
@@ -126,7 +126,7 @@ export default function PatientDashboard() {
       </div>
 
       {/* Stat Cards */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-2 lg:grid-cols-4 lg:gap-4">
         <StatCard
           title={t('patientDash.nextAppointment', language)}
           value={nextAppt ? formatDate(nextAppt.date) : '-'}
@@ -153,9 +153,9 @@ export default function PatientDashboard() {
         />
       </div>
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-3 lg:grid-cols-3 lg:gap-6">
         {/* Left column */}
-        <div className="lg:col-span-2 space-y-6">
+        <div className="lg:col-span-2 space-y-3 lg:space-y-6">
           {/* Therapist & Diagnosis */}
           <Card>
             <div className="flex items-start gap-4">
@@ -257,7 +257,7 @@ export default function PatientDashboard() {
         </div>
 
         {/* Right column */}
-        <div className="space-y-6">
+        <div className="space-y-3 lg:space-y-6">
           <MotivationalQuote />
 
           {/* Daily Exercise Reminder */}
@@ -331,7 +331,7 @@ export default function PatientDashboard() {
       </div>
 
       {/* Daily Goals, Water, Medication, Progress — full width 4 columns */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-2 lg:grid-cols-4 lg:gap-4">
         <DailyGoalsWidget />
         <WaterIntakeWidget />
         <MedicationWidget />

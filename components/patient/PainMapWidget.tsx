@@ -94,7 +94,7 @@ export default function PainMapWidget() {
       </div>
 
       <div className="relative px-2 pb-1">
-        <svg viewBox="0 0 375 575" className="w-full" style={{ maxHeight: '460px' }}>
+        <svg viewBox="0 0 375 575" className="w-full" style={{ maxHeight: '340px' }}>
           <defs>
             <radialGradient id="skinFill" cx="50%" cy="30%" r="70%">
               <stop offset="0%" stopColor="var(--color-text-main)" stopOpacity="0.06" />

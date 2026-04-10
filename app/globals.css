@@ -69,6 +69,19 @@ html, body {
   scrollbar-width: none;
 }
 
+/* Mobile card style */
+@media (max-width: 1023px) {
+  .mobile-full-card {
+    border-radius: 0;
+    border-left: 0;
+    border-right: 0;
+    margin-left: -1rem;
+    margin-right: -1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
 /* FullCalendar overrides */
 .fc {
   --fc-border-color: var(--color-border);

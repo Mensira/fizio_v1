@@ -11,7 +11,7 @@ export default function Card({ children, className, padding = true }: CardProps)
     <div
       className={cn(
         'rounded-xl bg-card shadow-sm border border-border/50',
-        padding && 'p-6',
+        padding && 'p-4 lg:p-6',
         className
       )}
     >

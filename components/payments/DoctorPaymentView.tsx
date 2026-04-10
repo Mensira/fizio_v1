@@ -107,7 +107,7 @@ export default function DoctorPaymentView() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-3 lg:space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-lg font-semibold text-text-main">{t('payments.title', language)}</h2>
@@ -116,7 +116,7 @@ export default function DoctorPaymentView() {
         <Button icon={Plus} onClick={() => setModalOpen(true)}>{t('payments.new', language)}</Button>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+      <div className="grid grid-cols-1 gap-2 sm:grid-cols-3 lg:gap-4">
         <Card>
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-health-green/10">

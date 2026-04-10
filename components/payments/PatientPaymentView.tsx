@@ -122,7 +122,7 @@ export default function PatientPaymentView() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-3 lg:space-y-6">
       <div>
         <h2 className="text-lg font-semibold text-text-main">{tr ? 'Ödemelerim' : 'My Payments'}</h2>
         <p className="text-sm text-text-secondary">{tr ? 'Ödeme geçmişiniz ve bekleyen ödemeleriniz' : 'Your payment history and pending payments'}</p>
@@ -167,7 +167,7 @@ export default function PatientPaymentView() {
           </div>
           <div className="divide-y divide-border/30">
             {cashAwaitingPayments.map((payment) => (
-              <div key={payment.id} className="flex items-center gap-4 px-5 py-4">
+              <div key={payment.id} className="flex items-center gap-2 lg:gap-4 px-3 lg:px-5 py-3 lg:py-4">
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 shrink-0">
                   <Banknote className="h-5 w-5 text-primary" />
                 </div>
@@ -175,7 +175,7 @@ export default function PatientPaymentView() {
                   <p className="text-sm font-medium text-text-main">{payment.description}</p>
                   <p className="text-xs text-text-secondary mt-0.5">{formatDate(payment.date)}</p>
                 </div>
-                <p className="text-lg font-bold text-primary shrink-0">{formatCurrency(payment.amount)}</p>
+                <p className="text-base lg:text-lg font-bold text-primary shrink-0">{formatCurrency(payment.amount)}</p>
                 <Badge variant="default">
                   <span className="flex items-center gap-1">
                     <Clock className="h-3 w-3" />
@@ -200,16 +200,16 @@ export default function PatientPaymentView() {
           </div>
           <div className="divide-y divide-border/30">
             {pendingPayments.map((payment) => (
-              <div key={payment.id} className="flex items-center gap-4 px-5 py-4">
+              <div key={payment.id} className="flex items-center gap-2 lg:gap-4 px-3 lg:px-5 py-3 lg:py-4">
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-warning/10 shrink-0">
                   <Clock className="h-5 w-5 text-warning" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-text-main">{payment.description}</p>
+                  <p className="text-sm font-medium text-text-main truncate">{payment.description}</p>
                   <p className="text-xs text-text-secondary mt-0.5">{formatDate(payment.date)}</p>
                 </div>
-                <p className="text-lg font-bold text-warning shrink-0">{formatCurrency(payment.amount)}</p>
-                <Button onClick={() => openPayModal(payment.id)}>
+                <p className="text-sm lg:text-lg font-bold text-warning shrink-0">{formatCurrency(payment.amount)}</p>
+                <Button size="sm" onClick={() => openPayModal(payment.id)}>
                   {tr ? 'Öde' : 'Pay'}
                 </Button>
               </div>
@@ -232,7 +232,7 @@ export default function PatientPaymentView() {
             {myPayments.map((payment) => {
               const statusCfg = STATUS_CONFIG[payment.status];
               return (
-                <div key={payment.id} className="flex items-center gap-4 px-5 py-3 hover:bg-background/50 transition-colors">
+                <div key={payment.id} className="flex items-center gap-2 lg:gap-4 px-3 lg:px-5 py-2.5 lg:py-3 hover:bg-background/50 transition-colors">
                   <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-background shrink-0">
                     {METHOD_ICONS[payment.method]}
                   </div>

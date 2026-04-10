@@ -109,7 +109,7 @@ export default function RaporlarPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-3 lg:space-y-6">
       {/* Header */}
       <div>
         <h2 className="text-lg font-semibold text-text-main">{t('reports.title', language)}</h2>
@@ -117,7 +117,7 @@ export default function RaporlarPage() {
       </div>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-2 lg:grid-cols-4 lg:gap-4">
         <StatCard
           title={tr ? 'Toplam Hasta' : 'Total Patients'}
           value={totalPatients}
@@ -152,7 +152,7 @@ export default function RaporlarPage() {
             {tr ? 'Aylık Gelir Trendi (Son 6 Ay)' : 'Monthly Revenue Trend (Last 6 Months)'}
           </h3>
         </div>
-        <div className="h-64">
+        <div className="h-48 lg:h-64">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={monthlyRevenue}>
               <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" opacity={0.5} />

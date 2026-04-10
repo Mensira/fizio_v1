@@ -88,7 +88,7 @@ export default function PatientDetailPage() {
   const exerciseProgram = storeExercisePrograms.find((ep) => ep.patientId === patient.id);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-3 lg:space-y-6">
       {/* Back button */}
       <button
         onClick={() => router.push(isPatient ? '/' : '/hastalar')}
@@ -102,18 +102,18 @@ export default function PatientDetailPage() {
         <div className="lg:col-span-3 space-y-6">
           {/* Patient header */}
           <Card>
-            <div className="flex items-center gap-4">
-              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-xl font-bold text-primary">
+            <div className="flex items-center gap-3">
+              <div className="flex h-12 w-12 lg:h-16 lg:w-16 items-center justify-center rounded-full bg-primary/10 text-lg lg:text-xl font-bold text-primary shrink-0">
                 {patient.firstName[0]}{patient.lastName[0]}
               </div>
-              <div>
-                <h2 className="text-xl font-bold text-text-main">
+              <div className="min-w-0">
+                <h2 className="text-lg lg:text-xl font-bold text-text-main truncate">
                   {patient.firstName} {patient.lastName}
                 </h2>
-                <p className="text-sm text-text-secondary">{patient.diagnosis}</p>
-                <div className="flex items-center gap-4 mt-2 text-xs text-text-secondary">
-                  <span className="flex items-center gap-1"><Phone className="h-3.5 w-3.5" /> {patient.phone}</span>
-                  <span className="flex items-center gap-1"><Mail className="h-3.5 w-3.5" /> {patient.email}</span>
+                <p className="text-sm text-text-secondary truncate">{patient.diagnosis}</p>
+                <div className="flex flex-wrap items-center gap-2 lg:gap-4 mt-1 text-xs text-text-secondary">
+                  <span className="flex items-center gap-1"><Phone className="h-3.5 w-3.5 shrink-0" /> {patient.phone}</span>
+                  <span className="hidden sm:flex items-center gap-1"><Mail className="h-3.5 w-3.5 shrink-0" /> {patient.email}</span>
                 </div>
               </div>
             </div>

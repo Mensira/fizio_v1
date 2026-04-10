@@ -56,7 +56,7 @@ export default function HastalarPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-3 lg:space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -93,7 +93,7 @@ export default function HastalarPage() {
           {filtered.map((patient) => (
             <div
               key={patient.id}
-              className="rounded-xl bg-card shadow-sm border border-border/50 p-6 cursor-pointer hover:shadow-md hover:border-primary/30 transition-all group"
+              className="rounded-xl bg-card shadow-sm border border-border/50 p-4 lg:p-6 cursor-pointer hover:shadow-md hover:border-primary/30 transition-all group"
               onClick={() => router.push(`/hastalar/${patient.id}`)}
             >
               <div className="flex items-center gap-4">

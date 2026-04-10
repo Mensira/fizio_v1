@@ -89,7 +89,7 @@ export default function RandevularPage() {
   const docCountdown = getCountdown(docNextAppt);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-3 lg:space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
           <h2 className="text-lg font-semibold text-text-main">
@@ -127,7 +127,7 @@ export default function RandevularPage() {
 
       {/* Doctor: stats + countdown + upcoming list */}
       {!isPatient && (
-        <div className="grid grid-cols-1 gap-4 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-2 lg:grid-cols-4 lg:gap-4">
           {/* Today's appointments count */}
           <Card>
             <div className="flex items-start gap-3">
@@ -273,7 +273,7 @@ export default function RandevularPage() {
 
       {/* Patient: countdown + past appointments */}
       {isPatient && (
-        <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-3 lg:grid-cols-3 lg:gap-4">
           {/* Countdown to next appointment */}
           <Card>
             <div className="flex items-start gap-3">

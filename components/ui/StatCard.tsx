@@ -11,19 +11,19 @@ interface StatCardProps {
 
 export default function StatCard({ title, value, icon: Icon, iconBgColor = 'bg-primary/10', trend }: StatCardProps) {
   return (
-    <div className="rounded-xl bg-card p-6 shadow-sm border border-border/50 transition-shadow hover:shadow-md">
+    <div className="rounded-xl bg-card p-4 lg:p-6 shadow-sm border border-border/50 transition-shadow hover:shadow-md">
       <div className="flex items-start justify-between">
         <div>
-          <p className="text-sm font-medium text-text-secondary">{title}</p>
-          <p className="mt-2 text-3xl font-bold text-text-main">{value}</p>
+          <p className="text-xs lg:text-sm font-medium text-text-secondary">{title}</p>
+          <p className="mt-1 lg:mt-2 text-2xl lg:text-3xl font-bold text-text-main">{value}</p>
           {trend && (
-            <p className={cn('mt-1 text-sm font-medium', trend.positive ? 'text-health-green' : 'text-danger')}>
+            <p className={cn('mt-1 text-xs lg:text-sm font-medium', trend.positive ? 'text-health-green' : 'text-danger')}>
               {trend.positive ? '+' : ''}{trend.value}%
             </p>
           )}
         </div>
-        <div className={cn('flex h-12 w-12 items-center justify-center rounded-xl', iconBgColor)}>
-          <Icon className="h-6 w-6 text-primary" />
+        <div className={cn('flex h-9 w-9 lg:h-12 lg:w-12 items-center justify-center rounded-xl', iconBgColor)}>
+          <Icon className="h-5 w-5 lg:h-6 lg:w-6 text-primary" />
         </div>
       </div>
     </div>

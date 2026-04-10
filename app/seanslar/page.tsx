@@ -48,7 +48,7 @@ export default function SeanslarPage() {
   const painColor = (l: number) => l <= 3 ? 'text-health-green' : l <= 6 ? 'text-warning' : 'text-danger';
 
   const SessionRow = ({ session, highlight }: { session: typeof sessions[0]; highlight?: boolean }) => (
-    <div className={`flex items-start gap-3 px-4 py-3 ${highlight ? 'bg-warning/5' : 'hover:bg-background/50'} transition-colors`}>
+    <div className={`flex items-start gap-2 lg:gap-3 px-3 lg:px-4 py-2.5 lg:py-3 ${highlight ? 'bg-warning/5' : 'hover:bg-background/50'} transition-colors`}>
       {!isPatient && (
         <button onClick={() => handleToggle(session.id, session.completed)} className="shrink-0 mt-0.5">
           {session.completed
@@ -108,11 +108,11 @@ export default function SeanslarPage() {
   );
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3 lg:space-y-4">
       {/* Header + Filters */}
-      <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+      <div className="flex flex-col gap-2">
         <h2 className="text-lg font-semibold text-text-main shrink-0">{t('sessions.title', language)}</h2>
-        <div className="flex flex-1 gap-2">
+        <div className="flex flex-col sm:flex-row flex-1 gap-2">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-text-secondary" />
             <input
