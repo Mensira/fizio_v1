@@ -1012,3 +1012,25 @@ export type TranslationKey = keyof typeof translations;
 export function t(key: TranslationKey, lang: Language): string {
   return translations[key][lang];
 }
+
+const diagnosisMap: Record<string, string> = {
+  'Bel Fıtığı': 'Lumbar Disc Herniation',
+  'Bel Fıtığı Rehabilitasyonu': 'Lumbar Disc Rehabilitation',
+  'Boyun Fıtığı': 'Cervical Disc Herniation',
+  'Omuz Sıkışma Sendromu': 'Shoulder Impingement Syndrome',
+  'Diz Artroskopisi Sonrası': 'Post Knee Arthroscopy',
+  'Diz Artroskopisi Rehabilitasyonu': 'Knee Arthroscopy Rehabilitation',
+  'Frozen Shoulder': 'Frozen Shoulder',
+  'Karpal Tünel Sendromu': 'Carpal Tunnel Syndrome',
+  'Total Diz Protezi': 'Total Knee Replacement',
+  'Total Diz Protezi Rehabilitasyonu': 'Total Knee Replacement Rehabilitation',
+  'Skolyoz': 'Scoliosis',
+  'ACL Rekonstrüksiyonu': 'ACL Reconstruction',
+  'ACL Rekonstrüksiyonu Rehabilitasyonu': 'ACL Reconstruction Rehabilitation',
+  'Fibromiyalji': 'Fibromyalgia',
+};
+
+export function translateDiagnosis(text: string, lang: Language): string {
+  if (lang === 'tr') return text;
+  return diagnosisMap[text] ?? text;
+}

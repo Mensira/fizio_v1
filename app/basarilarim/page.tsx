@@ -8,7 +8,7 @@ import Badge from '@/components/ui/Badge';
 import ProgressBar from '@/components/ui/ProgressBar';
 import {
   Award, Flame, Droplets, Dumbbell, Calendar,
-  TrendingUp, Star, Heart, Zap, Target,
+  Star, Zap, Target,
   Trophy, Crown,
 } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -30,7 +30,6 @@ interface AchievementData {
   completedSessions: number;
   exerciseDaysLast30: number;
   waterDaysReached: number;
-  totalPainReduction: number;
   streakDays: number;
   messageCount: number;
   progressNoteCount: number;
@@ -66,16 +65,6 @@ const ACHIEVEMENTS: Achievement[] = [
     id: 'a6', title: 'Su Perisi', description: '7 gün su hedefinize ulaşın',
     icon: Droplets, category: 'hydration', color: 'text-info', bg: 'bg-info/10',
     check: (d) => ({ earned: d.waterDaysReached >= 7, progress: Math.min(d.waterDaysReached, 7), max: 7 }),
-  },
-  {
-    id: 'a7', title: 'Ağrı Avcısı', description: 'Toplam 10 puan ağrı azalması sağlayın',
-    icon: TrendingUp, category: 'progress', color: 'text-health-green', bg: 'bg-health-green/10',
-    check: (d) => ({ earned: d.totalPainReduction >= 10, progress: Math.min(d.totalPainReduction, 10), max: 10 }),
-  },
-  {
-    id: 'a8', title: 'İyileşme Yolunda', description: 'Toplam 5 puan ağrı azalması',
-    icon: Heart, category: 'progress', color: 'text-danger', bg: 'bg-danger/10',
-    check: (d) => ({ earned: d.totalPainReduction >= 5, progress: Math.min(d.totalPainReduction, 5), max: 5 }),
   },
   {
     id: 'a10', title: 'İletişim Uzmanı', description: 'Doktorunuzla 10 mesaj alışverişi yapın',
@@ -135,14 +124,10 @@ export default function BasarilarimPage() {
       if (key.startsWith(pid) && waterIntake[key] >= 8) waterDaysReached++;
     }
 
-    const totalPainReduction = sessions
-      .filter((s) => s.patientId === pid && s.completed)
-      .reduce((sum, s) => sum + (s.painLevelBefore - s.painLevelAfter), 0);
-
     const messageCount = chatMessages.filter((m) => m.patientId === pid).length;
     const progressNoteCount = progressNotes.filter((n) => n.patientId === pid && n.author === 'patient').length;
 
-    return { completedSessions, exerciseDaysLast30, waterDaysReached, totalPainReduction, streakDays, messageCount, progressNoteCount };
+    return { completedSessions, exerciseDaysLast30, waterDaysReached, streakDays, messageCount, progressNoteCount };
   }, [loggedInPatientId, sessions, exerciseCompletions, waterIntake, chatMessages, progressNotes]);
 
   const results = useMemo(() => {

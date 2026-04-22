@@ -9,7 +9,7 @@ import {
 import { useEffect, useRef, useState } from 'react';
 import type { Appointment } from '@/lib/types';
 import { useStore } from '@/lib/store';
-import { t } from '@/lib/i18n';
+import { t, translateDiagnosis } from '@/lib/i18n';
 import Badge from '@/components/ui/Badge';
 
 interface Props {
@@ -172,7 +172,7 @@ export default function AppointmentDetailModal({ appointment, isOpen, onClose }:
                   <div className="flex-1">
                     <p className="text-sm font-semibold text-text-main">{appointment.patientName}</p>
                     {patient && (
-                      <p className="text-xs text-text-secondary">{patient.diagnosis}</p>
+                      <p className="text-xs text-text-secondary">{translateDiagnosis(patient.diagnosis, language)}</p>
                     )}
                   </div>
                   {patient && (

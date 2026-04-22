@@ -7,6 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ```bash
 npm run dev      # Start dev server (localhost:3000)
 npm run build    # Production build
+npm run start    # Serve production build locally
 npm run lint     # ESLint (flat config, eslint-config-next)
 ```
 
@@ -31,16 +32,27 @@ No test framework is configured.
 - All route pages are `'use client'` components that consume the Zustand store directly
 - Path alias `@/` maps to project root
 - Design tokens are defined as CSS custom properties in `globals.css` `@theme` block (e.g., `--color-primary`, `--color-background`) — use these Tailwind color names (e.g., `bg-primary`, `text-text-main`, `border-border`)
-- Dark mode is toggled by adding/removing `dark` class on `<body>` — dark overrides for CSS custom properties are in `globals.css` under `body.dark`
+- Dark mode is toggled by `AppShell` adding/removing the `dark` class on `<body>` based on Zustand `theme` state; dark overrides for CSS variables live in `globals.css` under `body.dark`
+- Font scale: `AppShell` writes `fontSize` (`small`/`normal`/`large` → `14px`/`16px`/`18px`) onto `document.documentElement.style.fontSize` so all `rem` units rescale globally
 - Custom UI components in `components/ui/` (Card, Button, Badge, Modal, Tabs, Input, Select, ProgressBar, Toast, StatCard) — use these instead of installing a component library
+- Dashboard widgets live in `components/dashboard/` (`PatientDashboard`, `AppointmentListWidget`, `ProgressChartWidget`, `QuickActionPanel`, `MotivationalQuote`)
+- Patient-facing widgets in `components/patient/` (e.g., `ChatWidget`, `WaterIntakeWidget`, `ExerciseTimer`, `BadgesWidget`, `BeforeAfterComparison`, `DailyGoalsWidget`, `MedicationWidget`, `SleepEnergyWidget`, `ExerciseHeatmap`, `AppointmentRequestWidget`)
 - `lib/utils.ts` provides `cn()` for conditional class joining, plus `formatDate`, `formatTime`, `formatCurrency` (Turkish locale), and `fullName` helpers
-- `AppShell` (`components/layout/AppShell.tsx`) wraps all pages: shows `LoginPage` when logged out, otherwise renders Sidebar + Header + content area
-- Layout uses a fixed sidebar (`components/layout/Sidebar.tsx`) with `pl-64` offset on the content area
+- `AppShell` (`components/layout/AppShell.tsx`) wraps all pages: shows `LoginPage` when logged out, otherwise renders Sidebar + Header + content area, plus the global `ChatWidget` and `Toast`
 - i18n: use `t('key', language)` from `lib/i18n.ts`; language state lives in Zustand store. Type is `Language = 'tr' | 'en'`
+
+## Mobile-First Layout
+
+The UI is phone-optimized — recent work redesigned most pages around small screens, then layered desktop affordances on top via `lg:` breakpoints (Tailwind ≥1024px).
+
+- Sidebar is a slide-in overlay on mobile (with backdrop `bg-black/50 lg:hidden`) and a fixed rail on desktop. Content area uses `pl-0 lg:pl-64`
+- Main padding is `p-3 lg:p-6`; pages should follow the same compact-on-mobile pattern
+- `globals.css` defines mobile helpers: `.mobile-full-card` (edge-to-edge cards under 1024px) and `.scrollbar-hide` (for horizontal tab strips). `html, body` are locked to `overflow-x: hidden` to prevent stray horizontal scroll
+- Prefer stacked layouts on mobile (e.g., payment rows, session summaries) and `grid`/`flex` rows only at `lg:`
 
 ## Dual-Role System
 
-The app supports two roles: `'doctor'` and `'patient'`. The role is set at login via `useStore`'s `login(role, patientId?)` action. `AppShell` enforces route restrictions — patients can only access a whitelist of paths (`PATIENT_ALLOWED_PATHS`). The dashboard renders `PatientDashboard` for patients and the standard admin dashboard for doctors. Patient-specific widgets (ChatWidget, WaterIntake, PainMap, ExerciseTimer, etc.) live in `components/patient/`.
+The app supports two roles: `'doctor'` and `'patient'`. The role is set at login via `useStore`'s `login(role, patientId?)` action. `AppShell` enforces route restrictions — patients can only access paths in `PATIENT_ALLOWED_PATHS`, plus a special-case exception for their own detail page (`/hastalar/${loggedInPatientId}`). Restricted paths trigger a `router.replace('/')`. The dashboard renders `PatientDashboard` for patients and the standard admin dashboard for doctors.
 
 ## Data Flow
 

@@ -16,7 +16,7 @@ const NAV_KEYS: TranslationKey[] = [
 
 const PATIENT_NAV_KEYS: TranslationKey[] = [
   'nav.myDocuments', 'nav.information', 'nav.sessionSummaries',
-  'nav.achievements', 'nav.myProfile',
+  'nav.myProfile',
 ];
 
 

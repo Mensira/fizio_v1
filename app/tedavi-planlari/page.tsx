@@ -13,7 +13,7 @@ import ProgressBar from '@/components/ui/ProgressBar';
 import Input from '@/components/ui/Input';
 import Select from '@/components/ui/Select';
 import { useStore } from '@/lib/store';
-import { t } from '@/lib/i18n';
+import { t, translateDiagnosis } from '@/lib/i18n';
 import type { TreatmentPlan } from '@/lib/types';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -27,7 +27,6 @@ export default function TedaviPlanlariPage() {
   const addTreatmentPlan = useStore((s) => s.addTreatmentPlan);
   const patients = useStore((s) => s.patients);
   const showToast = useStore((s) => s.showToast);
-  const tr = language === 'tr';
 
   const [search, setSearch] = useState('');
   const [showNewPlan, setShowNewPlan] = useState(false);
@@ -150,7 +149,7 @@ export default function TedaviPlanlariPage() {
                   <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <h3 className="text-sm font-semibold text-text-main">{plan.diagnosis}</h3>
+                        <h3 className="text-sm font-semibold text-text-main">{translateDiagnosis(plan.diagnosis, language)}</h3>
                         <Badge variant={plan.status === 'Aktif' ? 'success' : plan.status === 'Tamamlandi' ? 'info' : 'warning'}>
                           {plan.status === 'Aktif' ? t('status.active', language) : plan.status === 'Tamamlandi' ? t('status.completed', language) : t('status.onHold', language)}
                         </Badge>

@@ -7,7 +7,6 @@ import {
   Zap,
   Star,
   Droplets,
-  Swords,
   CalendarCheck,
   Target,
   Crown,
@@ -31,7 +30,6 @@ interface BadgeContext {
   streak: number;
   exerciseCompletionCount: number;
   maxWaterInDay: number;
-  painPointCount: number;
   completedSessionCount: number;
   hasAllGoalsDay: boolean;
 }
@@ -101,15 +99,6 @@ const BADGE_DEFS: BadgeDefinition[] = [
     check: (ctx) => ctx.maxWaterInDay >= 8,
   },
   {
-    id: 'pain-warrior',
-    name: { tr: 'Ağrı Savaşçısı', en: 'Pain Warrior' },
-    description: { tr: '3+ ağrı noktası kaydet', en: 'Log 3+ pain points' },
-    icon: <Swords className="h-5 w-5" />,
-    color: 'text-danger',
-    bgColor: 'bg-danger/10',
-    check: (ctx) => ctx.painPointCount >= 3,
-  },
-  {
     id: 'regular-patient',
     name: { tr: 'Düzenli Hasta', en: 'Regular Patient' },
     description: { tr: '5+ seans tamamla', en: 'Complete 5+ sessions' },
@@ -143,7 +132,6 @@ export default function BadgesWidget() {
   const loggedInPatientId = useStore((s) => s.loggedInPatientId);
   const exerciseCompletions = useStore((s) => s.exerciseCompletions);
   const waterIntake = useStore((s) => s.waterIntake);
-  const painPoints = useStore((s) => s.painPoints);
   const sessions = useStore((s) => s.sessions);
   const dailyGoals = useStore((s) => s.dailyGoals);
 
@@ -165,10 +153,6 @@ export default function BadgesWidget() {
         }
       }
     }
-
-    const painPointCount = painPoints.filter(
-      (p) => p.patientId === loggedInPatientId
-    ).length;
 
     const completedSessionCount = sessions.filter(
       (sess) => sess.patientId === loggedInPatientId && sess.completed
@@ -193,13 +177,12 @@ export default function BadgesWidget() {
       streak: s,
       exerciseCompletionCount,
       maxWaterInDay,
-      painPointCount,
       completedSessionCount,
       hasAllGoalsDay,
     };
 
     return { streak: s, context: ctx };
-  }, [exerciseCompletions, waterIntake, painPoints, sessions, dailyGoals, loggedInPatientId]);
+  }, [exerciseCompletions, waterIntake, sessions, dailyGoals, loggedInPatientId]);
 
   const badges = BADGE_DEFS.map((def) => ({
     ...def,

@@ -2,11 +2,11 @@
 
 import { useMemo } from 'react';
 import { useStore } from '@/lib/store';
-import { t } from '@/lib/i18n';
+import { t, translateDiagnosis } from '@/lib/i18n';
 import Card from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
 import {
-  UserCircle, Calendar, Activity, TrendingUp, CreditCard, AlertTriangle, Phone, Mail, Droplets, ShieldAlert, UserCheck,
+  UserCircle, Activity, CreditCard, AlertTriangle, Phone, Mail, Droplets, ShieldAlert, UserCheck,
 } from 'lucide-react';
 
 export default function ProfilimPage() {
@@ -14,7 +14,6 @@ export default function ProfilimPage() {
   const loggedInPatientId = useStore((s) => s.loggedInPatientId);
   const patients = useStore((s) => s.patients);
   const sessions = useStore((s) => s.sessions);
-  const appointments = useStore((s) => s.appointments);
   const payments = useStore((s) => s.payments);
   const patientProfiles = useStore((s) => s.patientProfiles);
 
@@ -25,27 +24,19 @@ export default function ProfilimPage() {
 
   const stats = useMemo(() => {
     const pid = loggedInPatientId || '';
-    const myAppointments = appointments.filter((a) => a.patientId === pid);
     const mySessions = sessions.filter((s) => s.patientId === pid);
     const myPayments = payments.filter((p) => p.patientId === pid);
     const completedSessions = mySessions.filter((s) => s.completed).length;
     const totalPaid = myPayments.filter((p) => p.status === 'Odendi').reduce((sum, p) => sum + p.amount, 0);
     const pendingPayments = myPayments.filter((p) => p.status === 'Bekliyor').reduce((sum, p) => sum + p.amount, 0);
 
-    const sorted = [...mySessions].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-    const firstPain = sorted[0]?.painLevelBefore ?? 0;
-    const lastPain = [...sorted].reverse().find((s) => s.completed)?.painLevelAfter ?? 0;
-
     return {
-      totalAppointments: myAppointments.length,
       completedSessions,
       totalSessions: mySessions.length,
       totalPaid,
       pendingPayments,
-      firstPain,
-      lastPain,
     };
-  }, [loggedInPatientId, appointments, sessions, payments]);
+  }, [loggedInPatientId, sessions, payments]);
 
   const formatDate = (d: string) =>
     new Date(d).toLocaleDateString(tr ? 'tr-TR' : 'en-US', {
@@ -90,7 +81,7 @@ export default function ProfilimPage() {
           <div className="flex-1 min-w-0">
             <h2 className="text-xl font-bold text-text-main">{patient.firstName} {patient.lastName}</h2>
             <div className="flex items-center gap-3 mt-1 flex-wrap">
-              <Badge variant="info">{patient.diagnosis}</Badge>
+              <Badge variant="info">{translateDiagnosis(patient.diagnosis, language)}</Badge>
               <span className="text-xs text-text-secondary">
                 {calcAge(patient.birthDate)} {t('profile.yearsOld', language)}
               </span>
@@ -174,16 +165,7 @@ export default function ProfilimPage() {
           {t('profile.treatmentSummary', language)}
         </h3>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
-          <div className="rounded-xl border border-border bg-background/50 p-3 flex items-center gap-3">
-            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary/10">
-              <Calendar className="h-4 w-4 text-primary" />
-            </div>
-            <div>
-              <p className="text-xl font-bold text-text-main">{stats.totalAppointments}</p>
-              <p className="text-xs text-text-secondary">{t('profile.appointments', language)}</p>
-            </div>
-          </div>
+        <div className="grid grid-cols-2 lg:grid-cols-2 gap-3 mb-4">
           <div className="rounded-xl border border-border bg-background/50 p-3 flex items-center gap-3">
             <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-health-green/10">
               <Activity className="h-4 w-4 text-health-green" />
@@ -191,17 +173,6 @@ export default function ProfilimPage() {
             <div>
               <p className="text-xl font-bold text-text-main">{stats.completedSessions}/{stats.totalSessions}</p>
               <p className="text-xs text-text-secondary">{t('profile.sessions', language)}</p>
-            </div>
-          </div>
-          <div className="rounded-xl border border-border bg-background/50 p-3 flex items-center gap-3">
-            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-danger/10">
-              <TrendingUp className="h-4 w-4 text-danger" />
-            </div>
-            <div>
-              <p className="text-xl font-bold text-text-main">
-                {stats.firstPain} <span className="text-health-green text-base">&#8594; {stats.lastPain}</span>
-              </p>
-              <p className="text-xs text-text-secondary">{t('profile.pain', language)}</p>
             </div>
           </div>
           <div className="rounded-xl border border-border bg-background/50 p-3 flex items-center gap-3">
@@ -214,40 +185,6 @@ export default function ProfilimPage() {
             </div>
           </div>
         </div>
-
-        {/* Pain journey bar */}
-        {stats.totalSessions > 0 && (
-          <div className="flex items-center gap-4 mt-2">
-            <div className="text-center">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-danger/10 mx-auto">
-                <span className="text-lg font-bold text-danger">{stats.firstPain}</span>
-              </div>
-              <p className="text-xs text-text-secondary mt-1">{t('profile.start', language)}</p>
-            </div>
-            <div className="flex-1 h-2 rounded-full bg-gradient-to-r from-danger via-warning to-health-green relative">
-              {stats.lastPain > 0 && (
-                <div
-                  className="absolute top-1/2 -translate-y-1/2 h-4 w-4 rounded-full bg-white border-2 border-health-green shadow"
-                  style={{ left: `${Math.max(0, Math.min(100, ((10 - stats.lastPain) / 10) * 100))}%` }}
-                />
-              )}
-            </div>
-            <div className="text-center">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-health-green/10 mx-auto">
-                <span className="text-lg font-bold text-health-green">{stats.lastPain}</span>
-              </div>
-              <p className="text-xs text-text-secondary mt-1">{t('profile.now', language)}</p>
-            </div>
-          </div>
-        )}
-
-        {stats.firstPain > stats.lastPain && (
-          <p className="text-sm text-health-green font-medium text-center mt-3">
-            {tr
-              ? `${stats.firstPain - stats.lastPain} puan ağrı azalması sağlandı!`
-              : `${stats.firstPain - stats.lastPain} points of pain reduction achieved!`}
-          </p>
-        )}
       </Card>
 
       {/* Pending payment warning */}

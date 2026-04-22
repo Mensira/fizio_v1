@@ -10,7 +10,7 @@ import Modal from '@/components/ui/Modal';
 import Input from '@/components/ui/Input';
 import Select from '@/components/ui/Select';
 import { useStore } from '@/lib/store';
-import { t } from '@/lib/i18n';
+import { t, translateDiagnosis } from '@/lib/i18n';
 
 export default function HastalarPage() {
   const router = useRouter();
@@ -19,7 +19,6 @@ export default function HastalarPage() {
   const addPatient = useStore((s) => s.addPatient);
   const showToast = useStore((s) => s.showToast);
   const language = useStore((s) => s.language);
-  const tr = language === 'tr';
 
   const [search, setSearch] = useState('');
   const [modalOpen, setModalOpen] = useState(false);
@@ -113,7 +112,7 @@ export default function HastalarPage() {
                     </Badge>
                   </div>
                   <div className="flex items-center gap-3 mt-0.5 text-xs text-text-secondary">
-                    <span>{patient.diagnosis}</span>
+                    <span>{translateDiagnosis(patient.diagnosis, language)}</span>
                     <span className="text-border">·</span>
                     <span className="flex items-center gap-1">
                       <Phone className="h-3 w-3" />

@@ -5,11 +5,12 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import Sidebar from './Sidebar';
 import Header from './Header';
+import dynamic from 'next/dynamic';
 import Toast from '@/components/ui/Toast';
-import ChatWidget from '@/components/patient/ChatWidget';
-import LoginPage from './LoginPage';
+const ChatWidget = dynamic(() => import('@/components/patient/ChatWidget'), { ssr: false });
+const LoginPage = dynamic(() => import('./LoginPage'), { ssr: false });
 
-const PATIENT_ALLOWED_PATHS = ['/', '/randevular', '/tedavi-planlari', '/egzersiz-programlari', '/ilerleme', '/odemeler', '/ayarlar', '/belgelerim', '/bilgilendirme', '/seans-ozetleri', '/basarilarim', '/geri-bildirim', '/profilim'];
+const PATIENT_ALLOWED_PATHS = ['/', '/randevular', '/tedavi-planlari', '/egzersiz-programlari', '/ilerleme', '/odemeler', '/ayarlar', '/belgelerim', '/bilgilendirme', '/seans-ozetleri', '/geri-bildirim', '/profilim'];
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
   const isLoggedIn = useStore((s) => s.isLoggedIn);

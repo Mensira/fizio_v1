@@ -12,7 +12,6 @@ import {
   FolderOpen,
   BookOpen,
   ClipboardCheck,
-  Award,
   UserCircle,
 } from 'lucide-react';
 
@@ -35,7 +34,6 @@ export const PATIENT_NAV_ITEMS = [
   { label: 'Belgelerim', href: '/belgelerim', icon: FolderOpen },
   { label: 'Bilgilendirme', href: '/bilgilendirme', icon: BookOpen },
   { label: 'Seans Özetleri', href: '/seans-ozetleri', icon: ClipboardCheck },
-  { label: 'Başarılarım', href: '/basarilarim', icon: Award },
   { label: 'Profilim', href: '/profilim', icon: UserCircle },
 ];
 

@@ -1,13 +1,15 @@
 'use client';
 
+import { useMemo } from 'react';
 import { Calendar, Users, ClipboardList, TrendingUp, ArrowUpRight, Clock } from 'lucide-react';
 import StatCard from '@/components/ui/StatCard';
 import Card from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
 import AppointmentListWidget from '@/components/dashboard/AppointmentListWidget';
-import ProgressChartWidget from '@/components/dashboard/ProgressChartWidget';
+import dynamic from 'next/dynamic';
+const ProgressChartWidget = dynamic(() => import('@/components/dashboard/ProgressChartWidget'), { ssr: false });
+const PatientDashboard = dynamic(() => import('@/components/dashboard/PatientDashboard'), { ssr: false });
 import MotivationalQuote from '@/components/dashboard/MotivationalQuote';
-import PatientDashboard from '@/components/dashboard/PatientDashboard';
 import { useStore } from '@/lib/store';
 import { formatCurrency, formatTime } from '@/lib/utils';
 import { t } from '@/lib/i18n';
@@ -22,42 +24,45 @@ export default function DashboardPage() {
   const language = useStore((s) => s.language);
   const profile = useStore((s) => s.profile);
 
-  if (userRole === 'patient') {
-    return <PatientDashboard />;
-  }
+  const today = useMemo(() => new Date(), []);
 
-  const today = new Date();
-  const todayAppointments = appointments.filter((a) => {
+  const todayAppointments = useMemo(() => appointments.filter((a) => {
     const d = new Date(a.date);
     return d.getDate() === today.getDate() && d.getMonth() === today.getMonth() && d.getFullYear() === today.getFullYear();
-  });
+  }), [appointments, today]);
 
-  const activePlans = treatmentPlans.filter((tp) => tp.status === 'Aktif');
+  const activePlans = useMemo(() => treatmentPlans.filter((tp) => tp.status === 'Aktif'), [treatmentPlans]);
 
-  const todayRevenue = payments
+  const todayRevenue = useMemo(() => payments
     .filter((p) => {
       const d = new Date(p.date);
       return d.getDate() === today.getDate() && d.getMonth() === today.getMonth() && d.getFullYear() === today.getFullYear() && p.status === 'Odendi';
     })
-    .reduce((sum, p) => sum + p.amount, 0);
+    .reduce((sum, p) => sum + p.amount, 0), [payments, today]);
 
-  const upcomingAppts = appointments
+  const upcomingAppts = useMemo(() => appointments
     .filter((a) => {
       const d = new Date(a.date);
       const diff = (d.getTime() - today.getTime()) / (1000 * 60 * 60 * 24);
       return diff > 0 && diff <= 3 && a.status === 'Planlandi';
     })
     .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
-    .slice(0, 5);
+    .slice(0, 5), [appointments, today]);
 
-  const recentSessions = allSessions
+  const recentSessions = useMemo(() => allSessions
     .filter(s => s.completed)
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-    .slice(0, 4);
+    .slice(0, 4), [allSessions]);
 
-  const totalSessionsAll = activePlans.reduce((s, p) => s + p.totalSessions, 0);
-  const completedSessionsAll = activePlans.reduce((s, p) => s + p.completedSessions, 0);
-  const completionRate = totalSessionsAll > 0 ? Math.round((completedSessionsAll / totalSessionsAll) * 100) : 0;
+  const { totalSessionsAll, completedSessionsAll, completionRate } = useMemo(() => {
+    const total = activePlans.reduce((s, p) => s + p.totalSessions, 0);
+    const completed = activePlans.reduce((s, p) => s + p.completedSessions, 0);
+    return { totalSessionsAll: total, completedSessionsAll: completed, completionRate: total > 0 ? Math.round((completed / total) * 100) : 0 };
+  }, [activePlans]);
+
+  if (userRole === 'patient') {
+    return <PatientDashboard />;
+  }
 
   const hour = today.getHours();
   const greeting = hour < 12 ? t('dashboard.goodMorning', language) : hour < 18 ? t('dashboard.goodAfternoon', language) : t('dashboard.goodEvening', language);
@@ -158,7 +163,7 @@ export default function DashboardPage() {
                       <p className="text-[11px] text-text-secondary">{session.applications.join(', ')}</p>
                     </div>
                     <span className="text-[11px] text-text-secondary whitespace-nowrap">
-                      {t('dashboard.pain', language)}: {session.painLevelBefore}→{session.painLevelAfter}
+                      {session.duration} {t('common.min', language)}
                     </span>
                   </div>
                 ))}

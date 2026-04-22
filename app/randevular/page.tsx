@@ -1,7 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { Plus, CalendarPlus, Clock, Calendar, CheckCircle2, History, Users, AlertCircle, ArrowRight } from 'lucide-react';
+import { Plus, CalendarPlus, Clock, Calendar, CheckCircle2, History, Users, ArrowRight } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import Card from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
@@ -27,7 +27,6 @@ export default function RandevularPage() {
   const isPatient = userRole === 'patient';
   const loggedInPatientId = useStore((s) => s.loggedInPatientId);
   const appointments = useStore((s) => s.appointments);
-  const tr = language === 'tr';
 
   const now = new Date();
 
@@ -204,30 +203,6 @@ export default function RandevularPage() {
             </div>
           </Card>
 
-          {/* Weekly total */}
-          <Card>
-            <div className="flex items-start gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-info/10">
-                <AlertCircle className="h-5 w-5 text-info" />
-              </div>
-              <div className="flex-1">
-                <h3 className="text-xs font-medium text-text-secondary">
-                  {t('appointments.thisWeekTotal', language)}
-                </h3>
-                <p className="text-2xl font-bold text-text-main mt-1">
-                  {appointments.filter((a) => {
-                    const d = new Date(a.date);
-                    const weekStart = new Date(now);
-                    weekStart.setDate(now.getDate() - now.getDay() + 1);
-                    weekStart.setHours(0, 0, 0, 0);
-                    const weekEnd = new Date(weekStart.getTime() + 7 * 86400000);
-                    return d >= weekStart && d < weekEnd;
-                  }).length}
-                </p>
-                <p className="text-[11px] text-text-secondary">{t('common.appointments', language)}</p>
-              </div>
-            </div>
-          </Card>
         </div>
       )}
 

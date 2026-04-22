@@ -69,7 +69,6 @@ export interface MoodEntry {
   patientId: string;
   date: string;
   mood: number; // 1-5
-  painLevel: number; // 1-5
 }
 
 export interface ChatAttachment {
@@ -107,16 +106,6 @@ export interface DailyGoal {
   completedDates: string[]; // ISO date strings
 }
 
-export interface PainPoint {
-  id: string;
-  patientId: string;
-  date: string;
-  x: number;
-  y: number;
-  intensity: number; // 1-5
-  label: string;
-}
-
 export interface SleepEntry {
   id: string;
   patientId: string;
@@ -127,7 +116,7 @@ export interface SleepEntry {
 
 export interface AppNotification {
   id: string;
-  type: 'appointment' | 'message' | 'medication' | 'exercise' | 'achievement';
+  type: 'appointment' | 'message' | 'medication' | 'exercise';
   title: string;
   description: string;
   date: string;
@@ -243,11 +232,6 @@ interface AppStore {
   // Water intake: record per patient per day
   waterIntake: Record<string, number>; // key: "patientId-YYYY-MM-DD", value: glasses
   addWaterGlass: (patientId: string) => void;
-
-  // Pain points
-  painPoints: PainPoint[];
-  addPainPoint: (point: PainPoint) => void;
-  removePainPoint: (id: string) => void;
 
   // Sleep & Energy
   sleepEntries: SleepEntry[];
@@ -406,16 +390,16 @@ export const useStore = create<AppStore>((set) => ({
     set((s) => ({ progressNotes: [...s.progressNotes, note] })),
 
   moodEntries: [
-    { id: 'me1', patientId: 'p1', date: new Date(Date.now() - 6 * 86400000).toISOString(), mood: 2, painLevel: 4 },
-    { id: 'me2', patientId: 'p1', date: new Date(Date.now() - 5 * 86400000).toISOString(), mood: 3, painLevel: 3 },
-    { id: 'me3', patientId: 'p1', date: new Date(Date.now() - 4 * 86400000).toISOString(), mood: 3, painLevel: 3 },
-    { id: 'me4', patientId: 'p1', date: new Date(Date.now() - 3 * 86400000).toISOString(), mood: 4, painLevel: 2 },
-    { id: 'me5', patientId: 'p1', date: new Date(Date.now() - 2 * 86400000).toISOString(), mood: 4, painLevel: 2 },
-    { id: 'me6', patientId: 'p1', date: new Date(Date.now() - 1 * 86400000).toISOString(), mood: 5, painLevel: 1 },
-    { id: 'me7', patientId: 'p2', date: new Date(Date.now() - 3 * 86400000).toISOString(), mood: 3, painLevel: 3 },
-    { id: 'me8', patientId: 'p2', date: new Date(Date.now() - 1 * 86400000).toISOString(), mood: 4, painLevel: 2 },
-    { id: 'me9', patientId: 'p3', date: new Date(Date.now() - 2 * 86400000).toISOString(), mood: 4, painLevel: 2 },
-    { id: 'me10', patientId: 'p3', date: new Date(Date.now() - 1 * 86400000).toISOString(), mood: 5, painLevel: 1 },
+    { id: 'me1', patientId: 'p1', date: new Date(Date.now() - 6 * 86400000).toISOString(), mood: 2 },
+    { id: 'me2', patientId: 'p1', date: new Date(Date.now() - 5 * 86400000).toISOString(), mood: 3 },
+    { id: 'me3', patientId: 'p1', date: new Date(Date.now() - 4 * 86400000).toISOString(), mood: 3 },
+    { id: 'me4', patientId: 'p1', date: new Date(Date.now() - 3 * 86400000).toISOString(), mood: 4 },
+    { id: 'me5', patientId: 'p1', date: new Date(Date.now() - 2 * 86400000).toISOString(), mood: 4 },
+    { id: 'me6', patientId: 'p1', date: new Date(Date.now() - 1 * 86400000).toISOString(), mood: 5 },
+    { id: 'me7', patientId: 'p2', date: new Date(Date.now() - 3 * 86400000).toISOString(), mood: 3 },
+    { id: 'me8', patientId: 'p2', date: new Date(Date.now() - 1 * 86400000).toISOString(), mood: 4 },
+    { id: 'me9', patientId: 'p3', date: new Date(Date.now() - 2 * 86400000).toISOString(), mood: 4 },
+    { id: 'me10', patientId: 'p3', date: new Date(Date.now() - 1 * 86400000).toISOString(), mood: 5 },
   ],
   addMoodEntry: (entry) =>
     set((s) => ({ moodEntries: [...s.moodEntries, entry] })),
@@ -510,16 +494,6 @@ export const useStore = create<AppStore>((set) => ({
     set((s) => ({ waterIntake: { ...s.waterIntake, [key]: (s.waterIntake[key] || 0) + 1 } }));
   },
 
-  painPoints: [
-    { id: 'pp1', patientId: 'p1', date: new Date(Date.now() - 2 * 86400000).toISOString(), x: 50, y: 62, intensity: 3, label: 'Bel' },
-    { id: 'pp2', patientId: 'p2', date: new Date(Date.now() - 1 * 86400000).toISOString(), x: 68, y: 28, intensity: 4, label: 'Sağ Omuz' },
-    { id: 'pp3', patientId: 'p3', date: new Date(Date.now() - 1 * 86400000).toISOString(), x: 42, y: 78, intensity: 2, label: 'Sol Diz' },
-  ],
-  addPainPoint: (point) =>
-    set((s) => ({ painPoints: [...s.painPoints, point] })),
-  removePainPoint: (id) =>
-    set((s) => ({ painPoints: s.painPoints.filter((p) => p.id !== id) })),
-
   // Sleep & Energy
   sleepEntries: [
     { id: 'sl1', patientId: 'p1', date: new Date(Date.now() - 6 * 86400000).toISOString(), sleepHours: 6, energyLevel: 2 },
@@ -542,10 +516,8 @@ export const useStore = create<AppStore>((set) => ({
     { id: 'n1', type: 'appointment', title: 'Randevu Hatırlatma', description: 'Yarın saat 10:00\'da randevunuz var.', date: new Date(Date.now() - 3600000).toISOString(), read: false, link: '/randevular', targetRole: 'patient', targetPatientId: 'p1' },
     { id: 'n2', type: 'medication', title: 'İlaç Saati', description: 'Ibuprofen 400mg almanızın zamanı geldi.', date: new Date(Date.now() - 7200000).toISOString(), read: false, targetRole: 'patient', targetPatientId: 'p1' },
     { id: 'n3', type: 'exercise', title: 'Egzersiz Zamanı', description: 'Günlük egzersiz programınızı henüz tamamlamadınız.', date: new Date(Date.now() - 10800000).toISOString(), read: false, link: '/egzersiz-programlari', targetRole: 'patient', targetPatientId: 'p1' },
-    { id: 'n4', type: 'achievement', title: 'Yeni Rozet!', description: '3 gün üst üste su hedefinizi tutturdunuz!', date: new Date(Date.now() - 86400000).toISOString(), read: true, targetRole: 'patient', targetPatientId: 'p1' },
     { id: 'n5', type: 'message', title: 'Yeni Mesaj', description: 'Doktorunuzdan yeni bir mesaj var.', date: new Date(Date.now() - 2 * 86400000).toISOString(), read: true, targetRole: 'patient', targetPatientId: 'p1' },
     { id: 'n6', type: 'appointment', title: 'Yeni Randevu Talebi', description: 'Ahmet Yılmaz randevu talep etti.', date: new Date(Date.now() - 1800000).toISOString(), read: false, link: '/randevular', targetRole: 'doctor' },
-    { id: 'n7', type: 'achievement', title: 'Tebrikler!', description: 'Tedavi planınızın %50\'sini tamamladınız.', date: new Date(Date.now() - 3 * 86400000).toISOString(), read: true, targetRole: 'patient', targetPatientId: 'p1' },
   ],
   addNotification: (n) =>
     set((s) => ({ appNotifications: [n, ...s.appNotifications] })),

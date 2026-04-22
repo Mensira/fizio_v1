@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { CheckCircle, Circle, Search, ArrowRight, Clock } from 'lucide-react';
+import { CheckCircle, Circle, Search, Clock } from 'lucide-react';
 import Card from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
 import Button from '@/components/ui/Button';
@@ -16,7 +16,6 @@ export default function SeanslarPage() {
   const language = useStore((s) => s.language);
   const userRole = useStore((s) => s.userRole);
   const loggedInPatientId = useStore((s) => s.loggedInPatientId);
-  const tr = language === 'tr';
   const isPatient = userRole === 'patient';
 
   const [search, setSearch] = useState('');
@@ -44,8 +43,6 @@ export default function SeanslarPage() {
     toggleSessionComplete(id);
     if (!done) showToast(t('sessions.saved', language));
   };
-
-  const painColor = (l: number) => l <= 3 ? 'text-health-green' : l <= 6 ? 'text-warning' : 'text-danger';
 
   const SessionRow = ({ session, highlight }: { session: typeof sessions[0]; highlight?: boolean }) => (
     <div className={`flex items-start gap-2 lg:gap-3 px-3 lg:px-4 py-2.5 lg:py-3 ${highlight ? 'bg-warning/5' : 'hover:bg-background/50'} transition-colors`}>
@@ -78,18 +75,6 @@ export default function SeanslarPage() {
         {session.notes && (
           <p className="text-xs text-text-secondary mt-1 line-clamp-1">{session.notes}</p>
         )}
-      </div>
-
-      {/* Pain */}
-      <div className="shrink-0 text-right mt-0.5">
-        <p className="text-[10px] text-text-secondary mb-0.5">{t('sessions.pain', language)}</p>
-        <div className="flex items-center gap-1">
-          <span className={`text-sm font-bold ${painColor(session.painLevelBefore)}`}>{session.painLevelBefore}</span>
-          <ArrowRight className="h-3 w-3 text-text-secondary" />
-          <span className={`text-sm font-bold ${session.completed ? painColor(session.painLevelAfter) : 'text-text-secondary'}`}>
-            {session.completed ? session.painLevelAfter : '-'}
-          </span>
-        </div>
       </div>
 
       {/* Action */}

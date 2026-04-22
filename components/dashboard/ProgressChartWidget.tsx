@@ -28,7 +28,7 @@ export default function ProgressChartWidget() {
     .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
     .map((r) => ({
       date: formatShortDate(r.date),
-      agri: r.painLevel,
+      rom: r.rangeOfMotion,
     }));
 
   return (
@@ -53,19 +53,19 @@ export default function ProgressChartWidget() {
       ) : (
         <>
           <p className="text-xs text-text-secondary mb-3">
-            {patientInfo ? `${patientInfo.firstName} ${patientInfo.lastName}` : ''} - {t('dashboard.painLevel', language)}
+            {patientInfo ? `${patientInfo.firstName} ${patientInfo.lastName}` : ''} - {t('progress.rom', language)}
           </p>
           <ResponsiveContainer width="100%" height={200}>
             <AreaChart data={data}>
               <defs>
-                <linearGradient id="colorAgri" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#2F80ED" stopOpacity={0.2} />
-                  <stop offset="95%" stopColor="#2F80ED" stopOpacity={0} />
+                <linearGradient id="colorRom" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#27AE60" stopOpacity={0.2} />
+                  <stop offset="95%" stopColor="#27AE60" stopOpacity={0} />
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" />
               <XAxis dataKey="date" tick={{ fontSize: 12, fill: '#636E72' }} axisLine={false} tickLine={false} />
-              <YAxis domain={[0, 10]} tick={{ fontSize: 12, fill: '#636E72' }} axisLine={false} tickLine={false} />
+              <YAxis tick={{ fontSize: 12, fill: '#636E72' }} axisLine={false} tickLine={false} />
               <Tooltip
                 contentStyle={{
                   backgroundColor: '#fff',
@@ -74,7 +74,7 @@ export default function ProgressChartWidget() {
                   fontSize: '12px',
                 }}
               />
-              <Area type="monotone" dataKey="agri" stroke="#2F80ED" fill="url(#colorAgri)" strokeWidth={2} dot={{ r: 4, fill: '#fff', stroke: '#2F80ED', strokeWidth: 2 }} />
+              <Area type="monotone" dataKey="rom" stroke="#27AE60" fill="url(#colorRom)" strokeWidth={2} dot={{ r: 4, fill: '#fff', stroke: '#27AE60', strokeWidth: 2 }} />
             </AreaChart>
           </ResponsiveContainer>
         </>

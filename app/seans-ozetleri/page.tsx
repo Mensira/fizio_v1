@@ -6,8 +6,8 @@ import { t } from '@/lib/i18n';
 import Card from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
 import {
-  ClipboardCheck, Clock, TrendingDown,
-  Stethoscope, Activity, ArrowRight,
+  ClipboardCheck, Clock,
+  Stethoscope,
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -21,21 +21,6 @@ export default function SeansOzetleriPage() {
       .filter((s) => s.patientId === loggedInPatientId && s.completed)
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
   }, [sessions, loggedInPatientId]);
-
-  const totalPainReduction = useMemo(() => {
-    if (mySessions.length === 0) return 0;
-    return mySessions.reduce((sum, s) => sum + (s.painLevelBefore - s.painLevelAfter), 0);
-  }, [mySessions]);
-
-  const avgPainBefore = useMemo(() => {
-    if (mySessions.length === 0) return 0;
-    return (mySessions.reduce((sum, s) => sum + s.painLevelBefore, 0) / mySessions.length).toFixed(1);
-  }, [mySessions]);
-
-  const avgPainAfter = useMemo(() => {
-    if (mySessions.length === 0) return 0;
-    return (mySessions.reduce((sum, s) => sum + s.painLevelAfter, 0) / mySessions.length).toFixed(1);
-  }, [mySessions]);
 
   const formatDateStr = (d: string) =>
     new Date(d).toLocaleDateString(language === 'tr' ? 'tr-TR' : 'en-US', {
@@ -102,7 +87,7 @@ export default function SeansOzetleriPage() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-2 gap-2 lg:gap-4">
         <Card>
           <div className="flex items-center gap-2 lg:gap-3">
             <div className="flex h-8 w-8 lg:h-10 lg:w-10 items-center justify-center rounded-xl bg-primary/10 shrink-0">
@@ -117,33 +102,11 @@ export default function SeansOzetleriPage() {
         <Card>
           <div className="flex items-center gap-2 lg:gap-3">
             <div className="flex h-8 w-8 lg:h-10 lg:w-10 items-center justify-center rounded-xl bg-health-green/10 shrink-0">
-              <TrendingDown className="h-4 w-4 lg:h-5 lg:w-5 text-health-green" />
+              <Clock className="h-4 w-4 lg:h-5 lg:w-5 text-health-green" />
             </div>
             <div className="min-w-0">
-              <p className="text-lg lg:text-2xl font-bold text-text-main">{totalPainReduction}</p>
-              <p className="text-[10px] lg:text-xs text-text-secondary truncate">{t('sessionSummaries.painReduction', language)}</p>
-            </div>
-          </div>
-        </Card>
-        <Card>
-          <div className="flex items-center gap-2 lg:gap-3">
-            <div className="flex h-8 w-8 lg:h-10 lg:w-10 items-center justify-center rounded-xl bg-danger/10 shrink-0">
-              <Activity className="h-4 w-4 lg:h-5 lg:w-5 text-danger" />
-            </div>
-            <div className="min-w-0">
-              <p className="text-lg lg:text-2xl font-bold text-text-main">{avgPainBefore}</p>
-              <p className="text-[10px] lg:text-xs text-text-secondary truncate">{t('sessionSummaries.avgPainBefore', language)}</p>
-            </div>
-          </div>
-        </Card>
-        <Card>
-          <div className="flex items-center gap-2 lg:gap-3">
-            <div className="flex h-8 w-8 lg:h-10 lg:w-10 items-center justify-center rounded-xl bg-health-green/10 shrink-0">
-              <Activity className="h-4 w-4 lg:h-5 lg:w-5 text-health-green" />
-            </div>
-            <div className="min-w-0">
-              <p className="text-lg lg:text-2xl font-bold text-text-main">{avgPainAfter}</p>
-              <p className="text-[10px] lg:text-xs text-text-secondary truncate">{t('sessionSummaries.avgPainAfter', language)}</p>
+              <p className="text-lg lg:text-2xl font-bold text-text-main">{mySessions.reduce((sum, s) => sum + s.duration, 0)}</p>
+              <p className="text-[10px] lg:text-xs text-text-secondary truncate">{language === 'tr' ? 'Toplam Dakika' : 'Total Minutes'}</p>
             </div>
           </div>
         </Card>
@@ -163,7 +126,6 @@ export default function SeansOzetleriPage() {
         <div className="space-y-3 lg:space-y-4">
           {mySessions.map((session, idx) => {
             const extra = sessionSummaries[session.id];
-            const painDiff = session.painLevelBefore - session.painLevelAfter;
             return (
               <motion.div
                 key={session.id}
@@ -172,9 +134,8 @@ export default function SeansOzetleriPage() {
                 transition={{ delay: idx * 0.05 }}
               >
                 <Card>
-                  {/* Session Header — stacks on mobile */}
+                  {/* Session Header */}
                   <div className="space-y-3 mb-3">
-                    {/* Top: number + date + time */}
                     <div className="flex items-center gap-2">
                       <div className="flex h-9 w-9 lg:h-11 lg:w-11 items-center justify-center rounded-xl bg-primary/10 shrink-0">
                         <span className="text-sm lg:text-lg font-bold text-primary">#{mySessions.length - idx}</span>
@@ -186,22 +147,6 @@ export default function SeansOzetleriPage() {
                           <span className="hidden sm:flex items-center gap-1"><Stethoscope className="h-3 w-3" />{session.therapistName}</span>
                         </div>
                       </div>
-                    </div>
-
-                    {/* Pain change row */}
-                    <div className="flex items-center gap-2 pl-11 lg:pl-13">
-                      <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-danger/10">
-                        <p className="text-[10px] text-text-secondary">{t('sessionSummaries.before', language)}</p>
-                        <p className="text-sm font-bold text-danger">{session.painLevelBefore}</p>
-                      </div>
-                      <ArrowRight className="h-3.5 w-3.5 text-text-secondary shrink-0" />
-                      <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-health-green/10">
-                        <p className="text-[10px] text-text-secondary">{t('sessionSummaries.after', language)}</p>
-                        <p className="text-sm font-bold text-health-green">{session.painLevelAfter}</p>
-                      </div>
-                      {painDiff > 0 && (
-                        <Badge variant="success">-{painDiff}</Badge>
-                      )}
                     </div>
                   </div>
 

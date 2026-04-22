@@ -15,7 +15,7 @@ import {
 } from '@/lib/mock-data';
 import { formatDate, formatTime, formatCurrency } from '@/lib/utils';
 import { MOTIVATIONAL_QUOTES } from '@/lib/constants';
-import { t } from '@/lib/i18n';
+import { t, translateDiagnosis } from '@/lib/i18n';
 import type { AppointmentStatus } from '@/lib/types';
 
 const statusBadge: Record<AppointmentStatus, 'info' | 'success' | 'danger' | 'warning'> = {
@@ -110,7 +110,7 @@ export default function PatientDetailPage() {
                 <h2 className="text-lg lg:text-xl font-bold text-text-main truncate">
                   {patient.firstName} {patient.lastName}
                 </h2>
-                <p className="text-sm text-text-secondary truncate">{patient.diagnosis}</p>
+                <p className="text-sm text-text-secondary truncate">{translateDiagnosis(patient.diagnosis, language)}</p>
                 <div className="flex flex-wrap items-center gap-2 lg:gap-4 mt-1 text-xs text-text-secondary">
                   <span className="flex items-center gap-1"><Phone className="h-3.5 w-3.5 shrink-0" /> {patient.phone}</span>
                   <span className="hidden sm:flex items-center gap-1"><Mail className="h-3.5 w-3.5 shrink-0" /> {patient.email}</span>
@@ -133,7 +133,7 @@ export default function PatientDetailPage() {
                   </div>
                   <div className="space-y-4">
                     <div><p className="text-xs text-text-secondary">{t('patients.gender', language)}</p><p className="text-sm font-medium text-text-main">{patient.gender === 'Erkek' ? t('patients.male', language) : t('patients.female', language)}</p></div>
-                    <div><p className="text-xs text-text-secondary">{t('patients.diagnosis', language)}</p><p className="text-sm font-medium text-text-main">{patient.diagnosis}</p></div>
+                    <div><p className="text-xs text-text-secondary">{t('patients.diagnosis', language)}</p><p className="text-sm font-medium text-text-main">{translateDiagnosis(patient.diagnosis, language)}</p></div>
                     <div><p className="text-xs text-text-secondary">{t('patients.notes', language)}</p><p className="text-sm font-medium text-text-main">{patient.notes || '-'}</p></div>
                     <div><p className="text-xs text-text-secondary">{t('patients.registrationDate', language)}</p><p className="text-sm font-medium text-text-main">{formatDate(patient.createdAt)}</p></div>
                   </div>
@@ -173,7 +173,6 @@ export default function PatientDetailPage() {
                           <Badge variant={s.completed ? 'success' : 'warning'}>
                             {s.completed ? t('status.completed', language) : t('status.waiting', language)}
                           </Badge>
-                          <p className="text-xs text-text-secondary mt-1">{t('dashboard.pain', language)}: {s.painLevelBefore} → {s.painLevelAfter}</p>
                         </div>
                       </div>
                     ))
@@ -189,7 +188,7 @@ export default function PatientDetailPage() {
                     plans.map((plan) => (
                       <div key={plan.id} className="rounded-lg border border-border/50 p-4 space-y-3">
                         <div className="flex items-center justify-between">
-                          <h4 className="text-sm font-semibold text-text-main">{plan.diagnosis}</h4>
+                          <h4 className="text-sm font-semibold text-text-main">{translateDiagnosis(plan.diagnosis, language)}</h4>
                           <Badge variant={plan.status === 'Aktif' ? 'success' : 'default'}>{plan.status}</Badge>
                         </div>
                         <p className="text-xs text-text-secondary">{plan.description}</p>
@@ -251,7 +250,6 @@ export default function PatientDetailPage() {
                         <thead>
                           <tr className="border-b border-border text-left">
                             <th className="px-4 py-2 text-xs font-medium uppercase text-text-secondary">{t('progressTable.date', language)}</th>
-                            <th className="px-4 py-2 text-xs font-medium uppercase text-text-secondary">{t('progressTable.painLevel', language)}</th>
                             <th className="px-4 py-2 text-xs font-medium uppercase text-text-secondary">{t('progressTable.rom', language)}</th>
                           </tr>
                         </thead>
@@ -259,7 +257,6 @@ export default function PatientDetailPage() {
                           {progress.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).map((r) => (
                             <tr key={r.id} className="border-b border-border/50">
                               <td className="px-4 py-3 text-sm text-text-main">{formatDate(r.date)}</td>
-                              <td className="px-4 py-3 text-sm text-text-main">{r.painLevel}/10</td>
                               <td className="px-4 py-3 text-sm text-text-main">{r.rangeOfMotion}°</td>
                             </tr>
                           ))}
@@ -302,10 +299,6 @@ export default function PatientDetailPage() {
           <Card>
             <h3 className="text-sm font-semibold text-text-main mb-4">{t('patientDetail.summary', language)}</h3>
             <div className="space-y-3">
-              <div className="flex justify-between">
-                <span className="text-xs text-text-secondary">{t('patientDetail.totalAppointments', language)}</span>
-                <span className="text-sm font-medium text-text-main">{appointments.length}</span>
-              </div>
               <div className="flex justify-between">
                 <span className="text-xs text-text-secondary">{t('patientDetail.totalSessions', language)}</span>
                 <span className="text-sm font-medium text-text-main">{patientSessions.length}</span>

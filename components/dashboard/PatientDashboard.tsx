@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Calendar, Activity, TrendingUp, Dumbbell, Clock, Heart, ArrowRight, Stethoscope, Sparkles, Droplets, RefreshCw } from 'lucide-react';
+import { Calendar, Activity, TrendingUp, Dumbbell, Clock, ArrowRight, Stethoscope, Sparkles, Droplets, RefreshCw } from 'lucide-react';
 import Card from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
 import StatCard from '@/components/ui/StatCard';
@@ -13,7 +13,7 @@ import { useStore } from '@/lib/store';
 import { exercises as allExercises, progressRecords } from '@/lib/mock-data';
 import { WATER_TIPS } from '@/lib/constants';
 import { formatDate, formatTime } from '@/lib/utils';
-import { t } from '@/lib/i18n';
+import { t, translateDiagnosis } from '@/lib/i18n';
 import Link from 'next/link';
 
 const INITIAL_TIP_INDEX = Math.floor(Math.random() * WATER_TIPS.length);
@@ -87,8 +87,6 @@ export default function PatientDashboard() {
     .filter((pr) => pr.patientId === loggedInPatientId)
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-  const latestPain = myProgress.length > 0 ? myProgress[0].painLevel : null;
-
   const nextAppt = upcomingAppointments[0];
 
   const hour = new Date().getHours();
@@ -145,12 +143,6 @@ export default function PatientDashboard() {
           icon={TrendingUp}
           iconBgColor="bg-warning/10"
         />
-        <StatCard
-          title={t('patientDash.painLevel', language)}
-          value={latestPain !== null ? `${latestPain}/10` : '-'}
-          icon={Heart}
-          iconBgColor="bg-danger/10"
-        />
       </div>
 
       <div className="grid grid-cols-1 gap-3 lg:grid-cols-3 lg:gap-6">
@@ -171,7 +163,7 @@ export default function PatientDashboard() {
               </div>
               <div className="text-right">
                 <p className="text-xs text-text-secondary mb-1">{t('patientDash.diagnosis', language)}</p>
-                <Badge variant="warning">{patient.diagnosis}</Badge>
+                <Badge variant="warning">{translateDiagnosis(patient.diagnosis, language)}</Badge>
               </div>
             </div>
           </Card>
@@ -228,7 +220,7 @@ export default function PatientDashboard() {
               </div>
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-text-secondary">{myPlan.diagnosis}</span>
+                  <span className="text-sm text-text-secondary">{translateDiagnosis(myPlan.diagnosis, language)}</span>
                   <span className="text-sm font-semibold text-primary">
                     {myPlan.completedSessions}/{myPlan.totalSessions} {t('dashboard.session', language)}
                   </span>
@@ -352,7 +344,6 @@ export default function PatientDashboard() {
                 <div key={record.id} className="flex items-center justify-between py-1.5 border-b border-border/30 last:border-0">
                   <span className="text-xs text-text-secondary">{formatDate(record.date)}</span>
                   <div className="flex items-center gap-3">
-                    <span className="text-xs text-text-secondary">{tr ? 'Ağrı' : 'Pain'}: <span className="font-semibold text-text-main">{record.painLevel}/10</span></span>
                     <span className="text-xs text-text-secondary">ROM: <span className="font-semibold text-text-main">{record.rangeOfMotion}°</span></span>
                   </div>
                 </div>

@@ -63,8 +63,6 @@ export interface Session {
   completed: boolean;
   notes: string;
   applications: string[];
-  painLevelBefore: number;
-  painLevelAfter: number;
 }
 
 export interface Exercise {
@@ -99,7 +97,6 @@ export interface ProgressRecord {
   id: string;
   patientId: string;
   date: string;
-  painLevel: number;
   rangeOfMotion: number;
   notes: string;
 }

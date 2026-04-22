@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect, useMemo } from 'react';
-import { Bell, Calendar, MessageCircle, Pill, Dumbbell, Trophy, BellOff } from 'lucide-react';
+import { Bell, Calendar, MessageCircle, Pill, Dumbbell, BellOff } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useStore } from '@/lib/store';
 import type { AppNotification } from '@/lib/store';
@@ -31,7 +31,6 @@ const typeIcons: Record<AppNotification['type'], React.ReactNode> = {
   message: <MessageCircle className="w-4 h-4 text-[var(--color-health-green)]" />,
   medication: <Pill className="w-4 h-4 text-[var(--color-warning)]" />,
   exercise: <Dumbbell className="w-4 h-4 text-[var(--color-primary)]" />,
-  achievement: <Trophy className="w-4 h-4 text-[var(--color-warning)]" />,
 };
 
 export default function NotificationCenter() {

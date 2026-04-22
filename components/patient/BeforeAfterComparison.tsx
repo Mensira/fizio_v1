@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import { progressRecords } from '@/lib/mock-data';
 import { useStore } from '@/lib/store';
 import Card from '@/components/ui/Card';
-import { TrendingUp, TrendingDown, Activity, Smile, ArrowRight } from 'lucide-react';
+import { TrendingUp, TrendingDown, Smile, ArrowRight } from 'lucide-react';
 
 interface BeforeAfterComparisonProps {
   patientId?: string;
@@ -105,11 +105,6 @@ export default function BeforeAfterComparison({ patientId }: BeforeAfterComparis
     if (!firstRecord || !latestRecord) return 0;
     const scores: number[] = [];
 
-    if (firstRecord.painLevel > 0) {
-      const painImprovement = ((firstRecord.painLevel - latestRecord.painLevel) / firstRecord.painLevel) * 100;
-      scores.push(Math.max(0, painImprovement));
-    }
-
     if (firstRecord.rangeOfMotion > 0) {
       const romImprovement = ((latestRecord.rangeOfMotion - firstRecord.rangeOfMotion) / firstRecord.rangeOfMotion) * 100;
       scores.push(Math.max(0, Math.min(100, romImprovement)));
@@ -152,7 +147,6 @@ export default function BeforeAfterComparison({ patientId }: BeforeAfterComparis
     );
   }
 
-  const painDiff = firstRecord.painLevel - latestRecord.painLevel;
   const romDiff = latestRecord.rangeOfMotion - firstRecord.rangeOfMotion;
   const moodDiff = firstMood && latestMood ? latestMood.mood - firstMood.mood : 0;
 
@@ -184,23 +178,6 @@ export default function BeforeAfterComparison({ patientId }: BeforeAfterComparis
 
       {/* Metrics */}
       <div className="mt-2">
-        {/* Pain */}
-        <MetricRow
-          label={isTr ? 'Ağrı Seviyesi' : 'Pain Level'}
-          icon={<Activity size={16} />}
-          startValue={`${firstRecord.painLevel}/10`}
-          nowValue={`${latestRecord.painLevel}/10`}
-          startDate={firstRecord.date}
-          nowDate={latestRecord.date}
-          improved={painDiff > 0}
-          changeText={painDiff > 0
-            ? `${painDiff} ${isTr ? 'puan azaldı' : 'pts decreased'}`
-            : painDiff < 0
-            ? `${Math.abs(painDiff)} ${isTr ? 'puan arttı' : 'pts increased'}`
-            : isTr ? 'Değişim yok' : 'No change'
-          }
-        />
-
         {/* ROM */}
         <MetricRow
           label={isTr ? 'Hareket Açıklığı' : 'Range of Motion'}
@@ -254,8 +231,8 @@ export default function BeforeAfterComparison({ patientId }: BeforeAfterComparis
         </div>
         <p className="text-[10px] text-text-secondary mt-1.5">
           {isTr
-            ? 'Ağrı azalması, hareket açıklığı ve ruh hali değişimlerine göre hesaplanır.'
-            : 'Based on pain reduction, range of motion, and mood changes.'}
+            ? 'Hareket açıklığı ve ruh hali değişimlerine göre hesaplanır.'
+            : 'Based on range of motion and mood changes.'}
         </p>
       </div>
     </Card>
