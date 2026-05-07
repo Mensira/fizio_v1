@@ -67,4 +67,4 @@ The app supports two roles: `'doctor'` and `'patient'`. The role is set at login
 All routes are Turkish-language paths:
 
 - **Core (doctor):** `/` (Dashboard), `/randevular` (Appointments), `/hastalar` (Patients), `/hastalar/[id]` (Patient detail), `/tedavi-planlari` (Treatment plans), `/seanslar` (Sessions), `/egzersiz-programlari` (Exercises), `/ilerleme` (Progress), `/odemeler` (Payments), `/raporlar` (Reports), `/ayarlar` (Settings)
-- **Patient-facing:** `/profilim` (My Profile), `/belgelerim` (My Documents), `/basarilarim` (Achievements/Badges), `/seans-ozetleri` (Session Summaries), `/bilgilendirme` (Info Center/FAQs)
+- **Patient-facing:** `/profilim` (My Profile), `/belgelerim` (My Documents), `/seans-ozetleri` (Session Summaries), `/bilgilendirme` (Info Center/FAQs)
